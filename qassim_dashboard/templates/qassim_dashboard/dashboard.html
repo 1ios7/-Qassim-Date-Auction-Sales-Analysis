@@ -1,0 +1,380 @@
+{% load static %}
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>مزاد القصيم الرقمي - لوحة المؤشرات</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(245, 158, 11, 0.18), transparent 30%),
+        radial-gradient(circle at bottom left, rgba(120, 53, 15, 0.14), transparent 32%),
+        linear-gradient(135deg, #fff7ed 0%, #fffbeb 45%, #f8fafc 100%);
+      min-height: 100vh;
+    }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.75);
+    }
+
+    .metric-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .metric-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 40px rgba(120, 53, 15, 0.12);
+    }
+
+    .branch-btn {
+      transition: all 0.25s ease;
+    }
+
+    .branch-btn:hover {
+      transform: translateY(-3px);
+    }
+  </style>
+</head>
+
+<body class="text-slate-900">
+
+  <!-- Header مستقل -->
+  <header class="max-w-7xl mx-auto px-5 md:px-8 py-6">
+    <div class="glass rounded-[28px] px-5 md:px-7 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4 shadow-sm">
+
+      <div class="flex items-center gap-4">
+        <div class="h-16 w-16 rounded-2xl bg-amber-50 border border-amber-100 flex items-center justify-center text-4xl shadow-sm">
+          🌴
+        </div>
+
+        <div>
+          <div class="text-sm text-amber-700 font-extrabold">قسم لوحات بيانات المزادات</div>
+          <div class="text-xl md:text-2xl font-black">مزاد القصيم الرقمي - الإصدار التحليلي</div>
+        </div>
+      </div>
+
+      <a href="{% url 'portal_home' %}"
+         class="px-5 py-3 rounded-2xl bg-slate-900 text-white font-extrabold hover:opacity-90 text-center">
+        العودة للصفحة الرئيسية
+      </a>
+
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-5 md:px-8 pb-12">
+
+    <!-- Hero -->
+    <section class="relative glass rounded-[36px] p-6 md:p-10 shadow-sm overflow-hidden mb-8">
+      <div class="absolute -top-24 -left-20 w-80 h-80 rounded-full bg-amber-400/20"></div>
+      <div class="absolute -bottom-24 -right-20 w-80 h-80 rounded-full bg-orange-700/10"></div>
+
+      <div class="relative z-10 grid lg:grid-cols-[1.15fr_.85fr] gap-8 items-center">
+        <div>
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 border text-sm font-extrabold text-slate-700 mb-5">
+            لوحة مؤشرات ديناميكية حسب فروع المزاد
+          </div>
+
+          <h1 class="text-4xl md:text-5xl font-black leading-tight mb-5">
+            تحليل صفقات ومبيعات فرع
+            <span class="text-amber-700">{{ selected_city }}</span>
+          </h1>
+
+          <p class="text-slate-600 leading-9 text-lg max-w-4xl">
+            تعرض هذه الصفحة بيانات منطقية ومتغيرة حسب الفرع المختار، وتشمل إجمالي المبيعات،
+            عدد الصفقات، الكميات المتداولة، أعلى صفقة، وحصة الفرع من إجمالي السوق.
+          </p>
+        </div>
+
+        <div class="rounded-[32px] bg-gradient-to-br from-amber-700 to-orange-900 text-white p-6 shadow-lg">
+          <div class="text-sm opacity-80 mb-2">ملخص الفرع الحالي</div>
+          <div class="text-3xl font-black mb-5">{{ selected_city }}</div>
+
+          <div class="grid gap-3">
+            <div class="p-4 rounded-2xl bg-white/10 border border-white/10 flex justify-between">
+              <span>إجمالي المبيعات</span>
+              <b>{{ total_sales }} ر.س</b>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-white/10 border border-white/10 flex justify-between">
+              <span>عدد الصفقات</span>
+              <b>{{ deals_count }}</b>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-white/10 border border-white/10 flex justify-between">
+              <span>حصة الفرع من السوق</span>
+              <b>{{ market_share }}%</b>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Branch Selection -->
+    <section class="bg-white rounded-[32px] shadow-sm border p-6 mb-6">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+        <div>
+          <h2 class="text-2xl font-black mb-1">اختر فرع المزاد</h2>
+          <p class="text-slate-500">
+            عند اختيار فرع مختلف تتغير المؤشرات والرسوم البيانية وسجل الصفقات تلقائيًا.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap gap-2">
+          {% for city in cities %}
+            <a href="?city={{ city }}"
+               class="branch-btn px-5 py-3 rounded-2xl font-extrabold border
+               {% if city == selected_city %}
+                 bg-amber-600 text-white border-amber-600 shadow
+               {% else %}
+                 bg-amber-50 text-amber-800 border-amber-100
+               {% endif %}">
+              {{ city }}
+            </a>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <!-- Metrics -->
+    <section class="grid sm:grid-cols-2 xl:grid-cols-5 gap-4 mb-6">
+
+      <div class="metric-card bg-white rounded-[28px] shadow-sm p-5 border">
+        <div class="text-xs text-slate-500 font-bold mb-2">إجمالي المبيعات</div>
+        <div class="text-3xl font-black text-amber-700">{{ total_sales }}</div>
+        <div class="text-sm text-slate-500 mt-2">ريال سعودي</div>
+      </div>
+
+      <div class="metric-card bg-white rounded-[28px] shadow-sm p-5 border">
+        <div class="text-xs text-slate-500 font-bold mb-2">عدد الصفقات</div>
+        <div class="text-3xl font-black text-slate-900">{{ deals_count }}</div>
+        <div class="text-sm text-slate-500 mt-2">صفقات معتمدة</div>
+      </div>
+
+      <div class="metric-card bg-white rounded-[28px] shadow-sm p-5 border">
+        <div class="text-xs text-slate-500 font-bold mb-2">إجمالي الكمية</div>
+        <div class="text-3xl font-black text-emerald-700">{{ total_quantity }}</div>
+        <div class="text-sm text-slate-500 mt-2">وحدة متداولة</div>
+      </div>
+
+      <div class="metric-card bg-white rounded-[28px] shadow-sm p-5 border">
+        <div class="text-xs text-slate-500 font-bold mb-2">متوسط الصفقة</div>
+        <div class="text-3xl font-black text-blue-700">{{ average_deal }}</div>
+        <div class="text-sm text-slate-500 mt-2">ريال لكل صفقة</div>
+      </div>
+
+      <div class="metric-card bg-white rounded-[28px] shadow-sm p-5 border">
+        <div class="text-xs text-slate-500 font-bold mb-2">أعلى صفقة</div>
+        <div class="text-2xl font-black text-orange-700">
+          {% if top_deal %}{{ top_deal.price }}{% else %}0{% endif %}
+        </div>
+        <div class="text-sm text-slate-500 mt-2">
+          {% if top_deal %}{{ top_deal.product }}{% else %}لا يوجد{% endif %}
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Charts -->
+    <section class="grid xl:grid-cols-2 gap-6 mb-6">
+
+      <div class="bg-white rounded-[32px] shadow-sm p-6 border">
+        <div class="mb-5">
+          <h2 class="text-2xl font-black">مبيعات المنتجات داخل الفرع</h2>
+          <p class="text-slate-500 mt-1">يوضح الرسم قيمة المبيعات لكل منتج في فرع {{ selected_city }}</p>
+        </div>
+        <canvas id="productSalesChart" height="180"></canvas>
+      </div>
+
+      <div class="bg-white rounded-[32px] shadow-sm p-6 border">
+        <div class="mb-5">
+          <h2 class="text-2xl font-black">الكميات المتداولة</h2>
+          <p class="text-slate-500 mt-1">يوضح الرسم كمية التداول لكل منتج داخل الفرع المختار</p>
+        </div>
+        <canvas id="quantityChart" height="180"></canvas>
+      </div>
+
+      <div class="bg-white rounded-[32px] shadow-sm p-6 border">
+        <div class="mb-5">
+          <h2 class="text-2xl font-black">مقارنة الفروع</h2>
+          <p class="text-slate-500 mt-1">مقارنة إجمالي المبيعات بين جميع الفروع</p>
+        </div>
+        <canvas id="branchChart" height="180"></canvas>
+      </div>
+
+      <div class="bg-white rounded-[32px] shadow-sm p-6 border">
+        <div class="mb-5">
+          <h2 class="text-2xl font-black">اتجاه أداء الفرع</h2>
+          <p class="text-slate-500 mt-1">تطور المبيعات الشهرية لفرع {{ selected_city }}</p>
+        </div>
+        <canvas id="monthlyChart" height="180"></canvas>
+      </div>
+
+    </section>
+
+    <!-- Deals Table -->
+    <section class="bg-white rounded-[32px] shadow-sm border p-6">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-5">
+        <div>
+          <h2 class="text-2xl font-black">سجل الصفقات المعتمدة</h2>
+          <p class="text-slate-500 mt-1">قائمة الصفقات الخاصة بفرع {{ selected_city }}</p>
+        </div>
+
+        <a href="{% url 'qassim_dashboard_download' %}?city={{ selected_city }}"
+           class="px-5 py-3 rounded-2xl bg-slate-900 text-white font-extrabold text-center hover:opacity-90">
+          تحميل تقرير الفرع
+        </a>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-separate border-spacing-y-2">
+          <thead>
+            <tr class="text-slate-500">
+              <th class="text-right p-3">رقم الصفقة</th>
+              <th class="text-right p-3">المنتج</th>
+              <th class="text-right p-3">التصنيف</th>
+              <th class="text-right p-3">السعر</th>
+              <th class="text-right p-3">الكمية</th>
+              <th class="text-right p-3">الحالة</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for item in deals %}
+              <tr class="bg-amber-50">
+                <td class="p-3 rounded-r-2xl font-black">{{ item.deal_id }}</td>
+                <td class="p-3 font-bold">{{ item.product }}</td>
+                <td class="p-3">{{ item.category }}</td>
+                <td class="p-3 font-black text-amber-700">{{ item.price }} ر.س</td>
+                <td class="p-3 font-bold">{{ item.quantity }}</td>
+                <td class="p-3 rounded-l-2xl">
+                  <span class="px-3 py-1 rounded-full bg-emerald-600 text-white text-xs font-bold">
+                    {{ item.status }}
+                  </span>
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="6" class="p-6 text-center bg-amber-50 rounded-2xl">
+                  لا توجد بيانات لهذا الفرع
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="max-w-7xl mx-auto px-5 md:px-8 pb-6">
+    <div class="glass rounded-[24px] px-6 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-sm text-slate-600">
+      <div class="font-bold">مزاد القصيم الرقمي - الإصدار التحليلي</div>
+      <div>قسم مستقل ضمن منصة المشاريع الرقمية الذكية</div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    const productLabels = {{ product_labels|safe }};
+    const productValues = {{ product_values|safe }};
+    const quantityValues = {{ quantity_values|safe }};
+
+    const branchLabels = {{ branch_labels|safe }};
+    const branchValues = {{ branch_values|safe }};
+
+    const monthlyLabels = {{ monthly_labels|safe }};
+    const monthlyValues = {{ monthly_values|safe }};
+
+    new Chart(document.getElementById("productSalesChart"), {
+      type: "bar",
+      data: {
+        labels: productLabels,
+        datasets: [{
+          label: "قيمة المبيعات",
+          data: productValues,
+          backgroundColor: "rgba(217, 119, 6, 0.75)",
+          borderColor: "rgba(217, 119, 6, 1)",
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false }
+        }
+      }
+    });
+
+    new Chart(document.getElementById("quantityChart"), {
+      type: "doughnut",
+      data: {
+        labels: productLabels,
+        datasets: [{
+          data: quantityValues,
+          backgroundColor: [
+            "rgba(245, 158, 11, 0.8)",
+            "rgba(16, 185, 129, 0.8)",
+            "rgba(59, 130, 246, 0.8)",
+            "rgba(239, 68, 68, 0.8)",
+            "rgba(139, 92, 246, 0.8)"
+          ]
+        }]
+      },
+      options: {
+        responsive: true
+      }
+    });
+
+    new Chart(document.getElementById("branchChart"), {
+      type: "bar",
+      data: {
+        labels: branchLabels,
+        datasets: [{
+          label: "إجمالي مبيعات الفرع",
+          data: branchValues,
+          backgroundColor: "rgba(120, 53, 15, 0.72)",
+          borderColor: "rgba(120, 53, 15, 1)",
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false }
+        }
+      }
+    });
+
+    new Chart(document.getElementById("monthlyChart"), {
+      type: "line",
+      data: {
+        labels: monthlyLabels,
+        datasets: [{
+          label: "المبيعات الشهرية",
+          data: monthlyValues,
+          borderColor: "rgba(217, 119, 6, 1)",
+          backgroundColor: "rgba(217, 119, 6, 0.15)",
+          fill: true,
+          tension: 0.35
+        }]
+      },
+      options: {
+        responsive: true
+      }
+    });
+  </script>
+
+</body>
+</html>

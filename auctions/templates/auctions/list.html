@@ -1,0 +1,56 @@
+<!-- =========================================
+  اسم الصفحة: list.html (صفحة عرض كل المزادات)
+  وظيفتها: تعرض جميع المزادات ككروت مع صورة (إذا موجودة) + السعر الحالي + زر التفاصيل
+========================================= -->
+
+
+{% extends "base.html" %}
+{% block title %}المزادات - مزاد القصيم{% endblock %}
+{% block content %}
+
+<div class="flex items-center justify-between mb-4">
+  <h1 class="text-2xl font-extrabold">المزادات</h1>
+</div>
+
+<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+  {# auctions جايه من view: auctions_list() #}
+  {% for a in auctions %}
+    <div class="bg-white rounded-2xl shadow overflow-hidden border">
+      <div class="p-4">
+        <div class="font-extrabold text-lg">{{ a.title }}</div>
+
+        {# إذا فيه صورة أولى للمزاد نعرضها، إذا لا نكتب "بدون صورة" #}
+        {% if a.images.first %}
+          <img class="mt-3 rounded-2xl border h-44 w-full object-cover"
+               src="{{ a.images.first.image.url }}" alt="{{ a.title }}">
+        {% else %}
+          <div class="mt-3 rounded-2xl border h-44 w-full flex items-center justify-center text-dateBrown/60">
+            بدون صورة
+          </div>
+        {% endif %}
+
+        <div class="mt-4 flex items-center justify-between">
+          <div>
+            <div class="text-xs text-dateBrown/60">السعر الحالي</div>
+            <div class="font-extrabold text-palmGold">{{ a.current_price }} ر.س</div>
+          </div>
+
+          {# زر يوديك لصفحة تفاصيل المزاد #}
+          <a href="{% url 'auction_detail' a.pk %}"
+             class="px-4 py-2 rounded-2xl bg-woodBrown text-white hover:bg-palmGold hover:text-dateBrown font-bold transition">
+            المزيد
+          </a>
+        </div>
+
+        {# توضيح سريع لحالة المزاد #}
+        <div class="mt-3 text-xs text-dateBrown/70">
+          {% if a.is_open %}✅ مزاد مفتوح{% else %}⛔ مزاد مقفل{% endif %}
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <div class="bg-white rounded-2xl shadow p-6">ما فيه مزادات.</div>
+  {% endfor %}
+</div>
+
+{% endblock %}

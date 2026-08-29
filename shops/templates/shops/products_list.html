@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+{% block title %}منتجات المتجر - مزاد القصيم{% endblock %}
+{% block content %}
+
+<div class="grid gap-6">
+
+  <section class="bg-white rounded-3xl shadow p-6 border">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      <div>
+        <h1 class="text-3xl font-extrabold">منتجات المتجر</h1>
+        <div class="text-sm text-dateBrown/70 mt-1">إدارة كل منتجات متجرك من مكان واحد</div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3">
+        <a href="{% url 'shops_product_create' %}"
+           class="px-5 py-3 rounded-2xl bg-palmGold text-dateBrown font-extrabold hover:opacity-95 text-center">
+          إضافة منتج جديد
+        </a>
+        <a href="{% url 'shops_dashboard' %}"
+           class="px-5 py-3 rounded-2xl bg-dateBrown text-white font-extrabold hover:opacity-95 text-center">
+          العودة للوحة المتجر
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white rounded-3xl shadow p-6 border">
+    <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
+      {% for product in products %}
+        <div class="rounded-2xl border bg-sandBeige/50 overflow-hidden">
+          {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.title }}" class="w-full h-52 object-cover border-b">
+          {% else %}
+            <div class="w-full h-52 flex items-center justify-center bg-white border-b text-dateBrown/60">
+              لا توجد صورة
+            </div>
+          {% endif %}
+
+          <div class="p-4">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <div class="font-extrabold text-lg">{{ product.title }}</div>
+                <div class="text-sm text-dateBrown/70 mt-1">{{ product.category|default:"بدون تصنيف" }}</div>
+              </div>
+
+              {% if product.is_available %}
+                <span class="text-xs px-3 py-1 rounded-full bg-palmGreen text-white">متاح</span>
+              {% else %}
+                <span class="text-xs px-3 py-1 rounded-full bg-urgentRed text-white">غير متاح</span>
+              {% endif %}
+            </div>
+
+            <div class="text-sm text-dateBrown/80 leading-7 mt-3 line-clamp-3">
+              {{ product.description|default:"لا يوجد وصف لهذا المنتج." }}
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 mt-4">
+              <div class="p-3 rounded-2xl bg-white border">
+                <div class="text-xs text-dateBrown/60">السعر</div>
+                <div class="font-extrabold mt-1 text-palmGold">{{ product.price }} ر.س</div>
+              </div>
+
+              <div class="p-3 rounded-2xl bg-white border">
+                <div class="text-xs text-dateBrown/60">المخزون</div>
+                <div class="font-extrabold mt-1">{{ product.stock }}</div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 mt-4">
+              <a href="{% url 'shops_product_edit' product.pk %}"
+                 class="text-center px-3 py-2 rounded-2xl bg-woodBrown text-white font-bold hover:bg-palmGold hover:text-dateBrown transition">
+                تعديل
+              </a>
+
+              <form method="post" action="{% url 'shops_product_delete' product.pk %}" onsubmit="return confirm('متأكد تبي تحذف المنتج؟');">
+                {% csrf_token %}
+                <button type="submit"
+                        class="w-full text-center px-3 py-2 rounded-2xl bg-urgentRed text-white font-bold hover:opacity-95">
+                  حذف
+                </button>
+              </form>
+
+              <button type="button"
+                      class="openAuctionBox px-3 py-2 rounded-2xl bg-dateBrown text-white font-bold hover:opacity-95"
+                      data-target="auction-box-{{ product.pk }}">
+                مزاد
+              </button>
+            </div>
+
+            <div id="auction-box-{{ product.pk }}" class="hidden mt-4 p-4 rounded-2xl bg-white border">
+              <form method="post" action="{% url 'shops_product_create_auction' product.pk %}" class="space-y-3">
+                {% csrf_token %}
+
+                <div class="space-y-2">
+                  <label class="block text-sm font-bold">سعر البداية</label>
+                  <input type="number" step="0.01" name="start_price" value="{{ product.price }}"
+                         class="w-full p-3 rounded-xl border border-dateBrown/30 bg-white text-dateBrown focus:border-dateBrown focus:ring-2 focus:ring-palmGold outline-none">
+                </div>
+
+                <div class="space-y-2">
+                  <label class="block text-sm font-bold">أقل زيادة</label>
+                  <input type="number" step="0.01" name="min_increment" value="10"
+                         class="w-full p-3 rounded-xl border border-dateBrown/30 bg-white text-dateBrown focus:border-dateBrown focus:ring-2 focus:ring-palmGold outline-none">
+                </div>
+
+                <div class="space-y-2">
+                  <label class="block text-sm font-bold">وقت نهاية المزاد</label>
+                  <input type="datetime-local" name="end_time"
+                         class="w-full p-3 rounded-xl border border-dateBrown/30 bg-white text-dateBrown focus:border-dateBrown focus:ring-2 focus:ring-palmGold outline-none">
+                </div>
+
+                <button type="submit"
+                        class="w-full py-3 rounded-2xl bg-palmGold text-dateBrown font-extrabold hover:opacity-95">
+                  إنشاء مزاد من المنتج
+                </button>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      {% empty %}
+        <div class="sm:col-span-2 xl:col-span-3 bg-sandBeige rounded-2xl border p-8 text-center">
+          <div class="text-xl font-extrabold mb-2">ما عندك منتجات حالياً</div>
+          <p class="text-dateBrown/70 mb-5">ابدأ بإضافة أول منتج لمتجرك.</p>
+          <a href="{% url 'shops_product_create' %}"
+             class="inline-block px-6 py-3 rounded-2xl bg-palmGold text-dateBrown font-extrabold hover:opacity-95">
+            إضافة منتج جديد
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".openAuctionBox").forEach((btn) => {
+      btn.addEventListener("click", function () {
+        const targetId = this.getAttribute("data-target");
+        const box = document.getElementById(targetId);
+        if (box) {
+          box.classList.toggle("hidden");
+        }
+      });
+    });
+  });
+</script>
+
+{% endblock %}

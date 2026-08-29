@@ -1,0 +1,323 @@
+{% extends "base.html" %}
+{% block title %}لوحة المشرف - مزاد القصيم{% endblock %}
+{% block content %}
+
+<div class="grid gap-6">
+
+  <!-- الهيدر الرئيسي -->
+  <section class="relative overflow-hidden bg-white rounded-[28px] shadow p-6 md:p-8 border">
+    <div class="absolute -top-20 -left-20 w-60 h-60 rounded-full bg-palmGold/10"></div>
+    <div class="absolute -bottom-24 -right-24 w-72 h-72 rounded-full bg-dateBrown/10"></div>
+    <div class="absolute top-10 right-1/3 w-28 h-28 rounded-full bg-woodBrown/10"></div>
+
+    <div class="relative z-10 grid xl:grid-cols-[1.2fr_.8fr] gap-6 items-center">
+      <div>
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sandBeige border text-xs font-bold mb-4">
+          <span class="w-2.5 h-2.5 rounded-full bg-palmGreen"></span>
+          مركز الإدارة والتحكم
+        </div>
+
+        <h1 class="text-3xl md:text-4xl font-extrabold mb-3">لوحة المشرف</h1>
+
+        <p class="text-dateBrown/80 leading-8 max-w-4xl">
+          من هنا يقدر المشرف يتابع نشاط المنصة بالكامل، ويراجع المزادات، ويتعامل مع الحالات
+          الإدارية مثل التعليق والحذف، ويراقب أعداد المستخدمين والمزايدات والمتاجر والبائعين
+          بشكل أوضح ومنظم.
+        </p>
+
+        <div class="grid sm:grid-cols-3 gap-3 mt-6">
+          <div class="p-4 rounded-2xl bg-sandBeige border">
+            <div class="text-xs text-dateBrown/60 mb-1">إدارة</div>
+            <div class="font-extrabold">المزادات والحالات</div>
+          </div>
+          <div class="p-4 rounded-2xl bg-sandBeige border">
+            <div class="text-xs text-dateBrown/60 mb-1">متابعة</div>
+            <div class="font-extrabold">المستخدمين والنشاط</div>
+          </div>
+          <div class="p-4 rounded-2xl bg-sandBeige border">
+            <div class="text-xs text-dateBrown/60 mb-1">رقابة</div>
+            <div class="font-extrabold">المنصة بالكامل</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-gradient-to-br from-dateBrown to-woodBrown rounded-[28px] p-6 text-sandBeige shadow-lg">
+        <div class="text-sm opacity-80 mb-2">ملخص سريع</div>
+        <div class="text-2xl font-extrabold mb-5">نظرة عامة على وضع المنصة</div>
+
+        <div class="space-y-3">
+          <div class="p-4 rounded-2xl bg-white/10 border border-white/10 flex items-center justify-between">
+            <div>
+              <div class="text-xs opacity-75">الحسابات المسجلة</div>
+              <div class="font-extrabold mt-1">إجمالي المستخدمين</div>
+            </div>
+            <div class="text-2xl font-extrabold">{{ stats.users_count }}</div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-white/10 border border-white/10 flex items-center justify-between">
+            <div>
+              <div class="text-xs opacity-75">النشاط الحالي</div>
+              <div class="font-extrabold mt-1">المزادات المفتوحة</div>
+            </div>
+            <div class="text-2xl font-extrabold">{{ stats.open_auctions_count }}</div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-white/10 border border-white/10 flex items-center justify-between">
+            <div>
+              <div class="text-xs opacity-75">الحالات الإدارية</div>
+              <div class="font-extrabold mt-1">المزادات المعلقة</div>
+            </div>
+            <div class="text-2xl font-extrabold">{{ stats.suspended_auctions_count }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- بطاقات الإحصائيات -->
+  <section class="grid sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 gap-4">
+
+    <div class="bg-white rounded-3xl shadow p-5 border relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-full h-1 bg-dateBrown"></div>
+      <div class="text-xs text-dateBrown/60 mb-2">عدد المستخدمين</div>
+      <div class="text-3xl font-extrabold text-dateBrown">{{ stats.users_count }}</div>
+      <div class="text-sm text-dateBrown/70 mt-2">كل الحسابات المسجلة</div>
+    </div>
+
+    <div class="bg-white rounded-3xl shadow p-5 border relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-full h-1 bg-palmGold"></div>
+      <div class="text-xs text-dateBrown/60 mb-2">عدد المزادات</div>
+      <div class="text-3xl font-extrabold text-dateBrown">{{ stats.auctions_count }}</div>
+      <div class="text-sm text-dateBrown/70 mt-2">إجمالي المزادات بالموقع</div>
+    </div>
+
+    <div class="bg-white rounded-3xl shadow p-5 border relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-full h-1 bg-palmGreen"></div>
+      <div class="text-xs text-dateBrown/60 mb-2">المزادات المفتوحة</div>
+      <div class="text-3xl font-extrabold text-palmGreen">{{ stats.open_auctions_count }}</div>
+      <div class="text-sm text-dateBrown/70 mt-2">مزادات نشطة الآن</div>
+    </div>
+
+    <div class="bg-white rounded-3xl shadow p-5 border relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-full h-1 bg-urgentRed"></div>
+      <div class="text-xs text-dateBrown/60 mb-2">المزادات المغلقة</div>
+      <div class="text-3xl font-extrabold text-urgentRed">{{ stats.closed_auctions_count }}</div>
+      <div class="text-sm text-dateBrown/70 mt-2">مزادات انتهى وقتها</div>
+    </div>
+
+    <div class="bg-white rounded-3xl shadow p-5 border relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-full h-1 bg-woodBrown"></div>
+      <div class="text-xs text-dateBrown/60 mb-2">المزادات المعلقة</div>
+      <div class="text-3xl font-extrabold text-dateBrown">{{ stats.suspended_auctions_count }}</div>
+      <div class="text-sm text-dateBrown/70 mt-2">مزادات موقوفة إداريًا</div>
+    </div>
+
+    <div class="bg-white rounded-3xl shadow p-5 border">
+      <div class="text-xs text-dateBrown/60 mb-2">عدد المزايدات</div>
+      <div class="text-3xl font-extrabold text-dateBrown">{{ stats.bids_count }}</div>
+      <div class="text-sm text-dateBrown/70 mt-2">كل المزايدات المسجلة</div>
+    </div>
+
+    <div class="bg-white rounded-3xl shadow p-5 border">
+      <div class="text-xs text-dateBrown/60 mb-2">عدد المشترين</div>
+      <div class="text-3xl font-extrabold text-dateBrown">{{ stats.buyers_count }}</div>
+      <div class="text-sm text-dateBrown/70 mt-2">الحسابات من نوع مشتري</div>
+    </div>
+
+    <div class="bg-white rounded-3xl shadow p-5 border">
+      <div class="text-xs text-dateBrown/60 mb-2">عدد البائعين</div>
+      <div class="text-3xl font-extrabold text-dateBrown">{{ stats.sellers_count }}</div>
+      <div class="text-sm text-dateBrown/70 mt-2">الحسابات من نوع بائع</div>
+    </div>
+
+    <div class="bg-white rounded-3xl shadow p-5 border">
+      <div class="text-xs text-dateBrown/60 mb-2">عدد المتاجر</div>
+      <div class="text-3xl font-extrabold text-dateBrown">{{ stats.shops_count }}</div>
+      <div class="text-sm text-dateBrown/70 mt-2">الحسابات من نوع متجر</div>
+    </div>
+  </section>
+
+  <!-- شريط معلومات -->
+  <section class="grid xl:grid-cols-[1fr_.9fr] gap-4">
+    <div class="bg-white rounded-3xl shadow p-5 border">
+      <div class="flex items-center justify-between gap-3">
+        <div>
+          <h2 class="text-xl font-extrabold">تنبيه إداري</h2>
+          <div class="text-sm text-dateBrown/70 mt-1">
+            يقدر المشرف من هذه الصفحة تعليق المزاد مع السبب، أو إلغاء التعليق، أو حذف المزاد نهائيًا.
+          </div>
+        </div>
+
+        <div class="w-11 h-11 rounded-full bg-palmGold text-dateBrown flex items-center justify-center font-extrabold text-xl shrink-0">
+          !
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-3xl shadow p-5 border">
+      <div class="font-extrabold mb-3">ما الذي تتابعه هنا؟</div>
+      <div class="grid sm:grid-cols-3 gap-3 text-sm text-dateBrown/80 leading-7">
+        <div class="p-3 rounded-2xl bg-sandBeige border">الحالة العامة للمزادات</div>
+        <div class="p-3 rounded-2xl bg-sandBeige border">النشاط داخل المنصة</div>
+        <div class="p-3 rounded-2xl bg-sandBeige border">الإجراءات الإدارية</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- المزادات -->
+  <section class="bg-white rounded-3xl shadow p-6 border">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 mb-6">
+      <div>
+        <h2 class="text-2xl font-extrabold">إدارة أحدث المزادات</h2>
+        <div class="text-sm text-dateBrown/70 mt-1">
+          عرض بصري واضح لأحدث المزادات مع أدوات الإدارة المباشرة
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-2 text-xs">
+        <span class="px-3 py-1 rounded-full bg-palmGreen text-white">مفتوح</span>
+        <span class="px-3 py-1 rounded-full bg-dateBrown text-white">معلق</span>
+        <span class="px-3 py-1 rounded-full bg-urgentRed text-white">مقفل</span>
+      </div>
+    </div>
+
+    <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-5">
+      {% for a in latest_auctions %}
+        <div class="rounded-[24px] border bg-sandBeige/50 overflow-hidden shadow-sm">
+          {% with first_image=a.images.all|first %}
+            {% if first_image %}
+              <img
+                src="{{ first_image.image.url }}"
+                alt="{{ a.title }}"
+                class="w-full h-48 object-cover border-b"
+              >
+            {% else %}
+              <div class="w-full h-48 flex items-center justify-center bg-white border-b text-dateBrown/60">
+                لا توجد صورة
+              </div>
+            {% endif %}
+          {% endwith %}
+
+          <div class="p-4">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <div class="font-extrabold text-xl leading-8">{{ a.title }}</div>
+                <div class="text-sm text-dateBrown/70 mt-1">
+                  البائع: {{ a.seller.first_name|default:a.seller.username }}
+                </div>
+              </div>
+
+              {% if a.is_suspended %}
+                <span class="text-xs px-3 py-1 rounded-full bg-dateBrown text-white shrink-0">معلق</span>
+              {% elif a.is_open %}
+                <span class="text-xs px-3 py-1 rounded-full bg-palmGreen text-white shrink-0">مفتوح</span>
+              {% else %}
+                <span class="text-xs px-3 py-1 rounded-full bg-urgentRed text-white shrink-0">مقفل</span>
+              {% endif %}
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 mt-4">
+              <div class="p-3 rounded-2xl bg-white border">
+                <div class="text-xs text-dateBrown/60">السعر الحالي</div>
+                <div class="font-extrabold text-palmGold mt-1">{{ a.current_price }} ر.س</div>
+              </div>
+
+              <div class="p-3 rounded-2xl bg-white border">
+                <div class="text-xs text-dateBrown/60">عدد المزايدات</div>
+                <div class="font-extrabold text-dateBrown mt-1">{{ a.bids.count }}</div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 mt-3">
+              <div class="p-3 rounded-2xl bg-white border">
+                <div class="text-xs text-dateBrown/60">بداية المزاد</div>
+                <div class="font-bold mt-1 text-sm">{{ a.start_time|date:"Y-m-d" }}</div>
+              </div>
+
+              <div class="p-3 rounded-2xl bg-white border">
+                <div class="text-xs text-dateBrown/60">نهاية المزاد</div>
+                <div class="font-bold mt-1 text-sm">{{ a.end_time|date:"Y-m-d" }}</div>
+              </div>
+            </div>
+
+            {% if a.is_suspended and a.suspension_reason %}
+              <div class="mt-4 p-4 rounded-2xl bg-white border">
+                <div class="text-xs text-dateBrown/60 mb-1">سبب التعليق</div>
+                <div class="text-sm font-bold text-dateBrown leading-7">{{ a.suspension_reason }}</div>
+              </div>
+            {% endif %}
+
+            <div class="mt-4">
+              <a href="{% url 'auction_detail' a.pk %}"
+                 class="block text-center px-4 py-3 rounded-2xl bg-dateBrown text-white font-bold hover:opacity-95">
+                عرض المزاد
+              </a>
+            </div>
+
+            {% if not a.is_suspended %}
+              <form method="post" class="mt-4 space-y-3">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="suspend">
+                <input type="hidden" name="auction_id" value="{{ a.id }}">
+
+                <div class="space-y-2">
+                  <label class="block text-sm font-bold">سبب التعليق</label>
+                  <select name="reason"
+                          class="w-full p-3 rounded-xl border border-dateBrown/30 bg-white text-dateBrown focus:border-dateBrown focus:ring-2 focus:ring-palmGold outline-none">
+                    <option value="">اختر السبب</option>
+                    {% for value, label in suspend_reasons.items %}
+                      <option value="{{ value }}">{{ label }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+
+                <div class="space-y-2">
+                  <label class="block text-sm font-bold">سبب مخصص (إذا اخترت أخرى)</label>
+                  <input type="text"
+                         name="custom_reason"
+                         class="w-full p-3 rounded-xl border border-dateBrown/30 bg-white text-dateBrown focus:border-dateBrown focus:ring-2 focus:ring-palmGold outline-none"
+                         placeholder="اكتب السبب هنا">
+                </div>
+
+                <button type="submit"
+                        class="w-full py-3 rounded-2xl bg-woodBrown text-white font-extrabold hover:opacity-95">
+                  تعليق المزاد
+                </button>
+              </form>
+            {% else %}
+              <form method="post" class="mt-4">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="unsuspend">
+                <input type="hidden" name="auction_id" value="{{ a.id }}">
+                <button type="submit"
+                        class="w-full py-3 rounded-2xl bg-palmGold text-dateBrown font-extrabold hover:opacity-95">
+                  إلغاء التعليق
+                </button>
+              </form>
+            {% endif %}
+
+            <form method="post" class="mt-3" onsubmit="return confirm('متأكد تبي تحذف المزاد نهائيًا؟');">
+              {% csrf_token %}
+              <input type="hidden" name="action" value="delete">
+              <input type="hidden" name="auction_id" value="{{ a.id }}">
+              <button type="submit"
+                      class="w-full py-3 rounded-2xl bg-urgentRed text-white font-extrabold hover:opacity-95">
+                حذف المزاد
+              </button>
+            </form>
+          </div>
+        </div>
+      {% empty %}
+        <div class="sm:col-span-2 xl:col-span-3 bg-sandBeige rounded-3xl border p-10 text-center">
+          <div class="text-2xl font-extrabold mb-2">لا توجد مزادات حالياً</div>
+          <p class="text-dateBrown/70 leading-7">
+            عندما يتم إضافة مزادات جديدة ستظهر هنا للمراجعة والإدارة.
+          </p>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+
+</div>
+
+{% endblock %}

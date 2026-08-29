@@ -1,0 +1,130 @@
+<!-- =========================================
+  اسم الصفحة: home.html (الصفحة الرئيسية)
+  وظيفتها: تعرض سلايدر صور للكرنفال + آخر المزادات (آخر 6 مزادات منشورة)
+========================================= -->
+
+
+
+{% extends "base.html" %}
+{% load static %} {# عشان نقدر نستدعي الصور من مجلد static #}
+{% block title %}الرئيسية - مزاد القصيم{% endblock %}
+{% block content %}
+
+<div class="grid gap-6"> {# تقسيم الصفحة لأقسام مع مسافات #}
+
+  <section class="bg-white rounded-2xl shadow p-5">
+    <div class="font-extrabold text-xl mb-3">كرنفال التمور السنوي</div>
+
+    <!-- سلايدر صور متحرك -->
+    <div class="aspect-video rounded-2xl overflow-hidden border relative">
+      {# كل صورة عليها نفس الكلاس home-slide عشان نتحكم فيها بالـ JS #}
+      <img class="home-slide absolute inset-0 w-full h-full object-cover opacity-100 transition-opacity duration-700"
+           src="{% static 'auctions/img/home_slide_1.jpg' %}" alt="كرنفال التمور 1">
+      <img class="home-slide absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700"
+           src="{% static 'auctions/img/home_slide_2.jpg' %}" alt="كرنفال التمور 2">
+
+      {# أزرار التنقل بين الصور (السابق/التالي) #}
+      <button type="button" id="homePrev"
+              class="absolute right-3 top-1/2 -translate-y-1/2 bg-white/90 px-3 py-2 rounded-xl">
+        ›
+      </button>
+      <button type="button" id="homeNext"
+              class="absolute left-3 top-1/2 -translate-y-1/2 bg-white/90 px-3 py-2 rounded-xl">
+        ‹
+      </button>
+
+      {# نقاط صغيرة توضح أي سلايد الحالي #}
+      <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
+        <span class="home-dot w-2.5 h-2.5 rounded-full bg-white/90"></span>
+        <span class="home-dot w-2.5 h-2.5 rounded-full bg-white/40"></span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="flex items-center justify-between mb-3">
+      <div class="font-extrabold text-xl">آخر المزادات</div>
+      <a href="{% url 'auctions_list' %}" class="text-sm font-bold text-dateBrown hover:text-palmGold">جميع المزادات →</a>
+      {# رابط يوديك لصفحة جميع المزادات #}
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {# latest_auctions جايه من view: home() #}
+      {% for a in latest_auctions %}
+        <a href="{% url 'auction_detail' a.pk %}" class="bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden border">
+          <div class="p-4">
+            <div class="font-extrabold">{{ a.title }}</div>
+            <div class="text-sm text-dateBrown/70 line-clamp-2">{{ a.description|default:"مزاد تمور القصيم" }}</div>
+
+            <div class="mt-4 flex items-center justify-between">
+              <div>
+                <div class="text-xs text-dateBrown/60">آخر مزايدة</div>
+                <div class="font-extrabold text-palmGold">{{ a.current_price }} ر.س</div>
+                {# current_price محسوبة من model property #}
+              </div>
+
+              {# حالة المزاد مفتوح/مقفل حسب is_open #}
+              {% if a.is_open %}
+                <span class="text-xs px-3 py-1 rounded-full bg-palmGreen text-white">مفتوح</span>
+              {% else %}
+                <span class="text-xs px-3 py-1 rounded-full bg-urgentRed text-white">مقفل</span>
+              {% endif %}
+            </div>
+          </div>
+        </a>
+      {% empty %}
+        <div class="bg-white rounded-2xl shadow p-6">ما فيه مزادات حالياً.</div>
+      {% endfor %}
+    </div>
+  </section>
+</div>
+
+<script>
+  // نجمع السلايدات والنقاط عشان نتحكم فيها
+  const slides = Array.from(document.querySelectorAll(".home-slide"));
+  const dots = Array.from(document.querySelectorAll(".home-dot"));
+  let idx = 0; // رقم السلايد الحالي
+
+  // دالة تعرض سلايد واحد وتخفي الباقي + تحدث النقاط
+  function show(i) {
+    slides.forEach((s, k) => s.classList.toggle("opacity-100", k === i));
+    slides.forEach((s, k) => s.classList.toggle("opacity-0", k !== i));
+    dots.forEach((d, k) => d.classList.toggle("bg-white/90", k === i));
+    dots.forEach((d, k) => d.classList.toggle("bg-white/40", k !== i));
+  }
+
+  // يروح للسلايد اللي بعده (مع لفه إذا وصل الأخير)
+  function next() {
+    idx = (idx + 1) % slides.length;
+    show(idx);
+  }
+
+  // يرجع للسلايد اللي قبله (مع لفه إذا كان الأول)
+  function prev() {
+    idx = (idx - 1 + slides.length) % slides.length;
+    show(idx);
+  }
+
+  // ربط الأزرار بالدوال
+  const btnPrev = document.getElementById("homePrev");
+  const btnNext = document.getElementById("homeNext");
+  if (btnPrev) btnPrev.addEventListener("click", prev);
+  if (btnNext) btnNext.addEventListener("click", next);
+
+  // تشغيل السلايدر تلقائي كل 3.5 ثواني
+  let timer = setInterval(next, 3500);
+
+  // إذا المستخدم ضغط زر، نعيد تشغيل المؤقت عشان ما يخرب الإحساس
+  [btnPrev, btnNext].forEach((b) => {
+    if (!b) return;
+    b.addEventListener("click", () => {
+      clearInterval(timer);
+      timer = setInterval(next, 3500);
+    });
+  });
+
+  // أول عرض عند فتح الصفحة
+  show(idx);
+</script>
+
+{% endblock %}

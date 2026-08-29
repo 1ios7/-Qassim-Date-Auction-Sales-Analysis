@@ -1,0 +1,167 @@
+<!-- =========================================
+  اسم الصفحة: about.html (صفحة من نحن)
+  وظيفتها: تعرض نبذة واضحة واحترافية عن فكرة منصة مزاد القصيم
+           + أهداف المشروع + المشكلة والحل + المميزات + لمن موجهة المنصة
+========================================= -->
+
+{% extends "base.html" %}
+{% block title %}من نحن - مزاد القصيم{% endblock %}
+{% block content %}
+
+<div class="grid gap-6">
+
+  <!-- مقدمة -->
+  <section class="bg-white rounded-2xl shadow p-6 border">
+    <div class="flex items-start justify-between gap-4">
+      <div>
+        <h1 class="text-2xl font-extrabold mb-2">من نحن</h1>
+        <p class="text-dateBrown/80 leading-7">
+          منصة <b>“مزاد القصيم”</b> هي منصة رقمية تفاعلية تهدف إلى تحويل مزادات التمور الكبرى في منطقة القصيم
+          من أسلوبها التقليدي إلى تجربة إلكترونية حديثة تسمح بالمزايدة الحية عن بُعد، مع توثيق الأسعار والصفقات
+          بشكل لحظي وشفاف.
+        </p>
+      </div>
+
+      <div class="hidden sm:block">
+        <div class="px-4 py-3 rounded-2xl bg-sandBeige border">
+          <div class="text-xs text-dateBrown/60">Qassim Digital Auction</div>
+          <div class="font-extrabold text-lg text-dateBrown">مزاد القصيم</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- المشكلة والحل -->
+  <section class="grid lg:grid-cols-2 gap-6">
+    <div class="bg-white rounded-2xl shadow p-6 border">
+      <h2 class="text-xl font-extrabold mb-3">المشكلة</h2>
+      <ul class="space-y-3 text-dateBrown/80 leading-7">
+        <li class="p-4 rounded-2xl bg-sandBeige border">
+          وجود عوائق <b>جغرافية</b> تمنع كثير من المزايدين من الحضور والمشاركة.
+        </li>
+        <li class="p-4 rounded-2xl bg-sandBeige border">
+          محدودية الوقت والمكان تؤثر على وصول أكبر عدد من المشاركين.
+        </li>
+        <li class="p-4 rounded-2xl bg-sandBeige border">
+          صعوبة توثيق الأسعار والصفقات بشكل منظم يمكن الرجوع له لاحقًا.
+        </li>
+      </ul>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow p-6 border">
+      <h2 class="text-xl font-extrabold mb-3">الحل</h2>
+      <div class="space-y-3 text-dateBrown/80 leading-7">
+        <div class="p-4 rounded-2xl bg-sandBeige border">
+          نقل المزاد إلى الويب مع <b>مزايدة مباشرة</b> من أي مكان وفي أي وقت.
+        </div>
+        <div class="p-4 rounded-2xl bg-sandBeige border">
+          توثيق تلقائي ولحظي لآخر سعر والمزايدات لضمان <b>الشفافية</b>.
+        </div>
+        <div class="p-4 rounded-2xl bg-sandBeige border">
+          إنشاء <b>قاعدة بيانات تاريخية</b> للأسعار تخدم المستثمرين والباحثين.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- أهداف المنصة -->
+  <section class="bg-white rounded-2xl shadow p-6 border">
+    <h2 class="text-xl font-extrabold mb-3">أهداف المنصة</h2>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="p-5 rounded-2xl bg-sandBeige border">
+        <div class="text-xs text-dateBrown/60 mb-1">هدف 01</div>
+        <div class="font-extrabold mb-1">المزايدة عن بُعد</div>
+        <div class="text-sm text-dateBrown/80 leading-6">
+          تمكين المزايدين من المشاركة من أي منطقة دون الحاجة للحضور.
+        </div>
+      </div>
+
+      <div class="p-5 rounded-2xl bg-sandBeige border">
+        <div class="text-xs text-dateBrown/60 mb-1">هدف 02</div>
+        <div class="font-extrabold mb-1">الشفافية والتوثيق</div>
+        <div class="text-sm text-dateBrown/80 leading-6">
+          توثيق الأسعار والمزايدات والصفقات تلقائيًا وبشكل لحظي.
+        </div>
+      </div>
+
+      <div class="p-5 rounded-2xl bg-sandBeige border">
+        <div class="text-xs text-dateBrown/60 mb-1">هدف 03</div>
+        <div class="font-extrabold mb-1">بيانات تفيد السوق</div>
+        <div class="text-sm text-dateBrown/80 leading-6">
+          بناء سجل تاريخي للأسعار يساعد على التحليل واتخاذ القرار.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- مميزات المنصة -->
+  <section class="bg-white rounded-2xl shadow p-6 border">
+    <h2 class="text-xl font-extrabold mb-3">مميزات مزاد القصيم</h2>
+
+    <div class="grid lg:grid-cols-2 gap-4">
+      <div class="p-4 rounded-2xl bg-sandBeige border flex items-start gap-3">
+        <div class="px-3 py-1 rounded-xl bg-dateBrown text-sandBeige text-sm font-extrabold">✓</div>
+        <div>
+          <div class="font-extrabold">واجهة عربية واضحة</div>
+          <div class="text-sm text-dateBrown/80 leading-6">تصميم بسيط وفخم مناسب للمزايدة السريعة.</div>
+        </div>
+      </div>
+
+      <div class="p-4 rounded-2xl bg-sandBeige border flex items-start gap-3">
+        <div class="px-3 py-1 rounded-xl bg-dateBrown text-sandBeige text-sm font-extrabold">✓</div>
+        <div>
+          <div class="font-extrabold">تحديث لحظي للمزايدات</div>
+          <div class="text-sm text-dateBrown/80 leading-6">عرض السعر الحالي ووقت المزاد بشكل متجدد.</div>
+        </div>
+      </div>
+
+      <div class="p-4 rounded-2xl bg-sandBeige border flex items-start gap-3">
+        <div class="px-3 py-1 rounded-xl bg-dateBrown text-sandBeige text-sm font-extrabold">✓</div>
+        <div>
+          <div class="font-extrabold">إدارة المزادات للتاجر</div>
+          <div class="text-sm text-dateBrown/80 leading-6">إضافة/تعديل/حذف المزادات وإدارة الصور بسهولة.</div>
+        </div>
+      </div>
+
+      <div class="p-4 rounded-2xl bg-sandBeige border flex items-start gap-3">
+        <div class="px-3 py-1 rounded-xl bg-dateBrown text-sandBeige text-sm font-extrabold">✓</div>
+        <div>
+          <div class="font-extrabold">معلومات واضحة للمنتج</div>
+          <div class="text-sm text-dateBrown/80 leading-6">تفاصيل المزاد + معلومات التاجر لزيادة الثقة.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- لمن موجهة المنصة -->
+  <section class="bg-white rounded-2xl shadow p-6 border">
+    <h2 class="text-xl font-extrabold mb-3">لمن المنصة؟</h2>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="p-5 rounded-2xl bg-sandBeige border">
+        <div class="font-extrabold mb-1">المزايدون</div>
+        <div class="text-sm text-dateBrown/80 leading-6">
+          يشاركون في المزاد عن بُعد ويتابعون السعر والوقت بشكل مباشر.
+        </div>
+      </div>
+
+      <div class="p-5 rounded-2xl bg-sandBeige border">
+        <div class="font-extrabold mb-1">التجار</div>
+        <div class="text-sm text-dateBrown/80 leading-6">
+          يضيفون مزاداتهم ويعدّلون البيانات والصور بكل سهولة.
+        </div>
+      </div>
+
+      <div class="p-5 rounded-2xl bg-sandBeige border">
+        <div class="font-extrabold mb-1">الباحثون والمستثمرون</div>
+        <div class="text-sm text-dateBrown/80 leading-6">
+          يستفيدون من البيانات التاريخية للأسعار لفهم السوق واتخاذ القرار.
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+{% endblock %}

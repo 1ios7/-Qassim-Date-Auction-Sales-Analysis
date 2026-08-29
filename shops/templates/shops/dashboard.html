@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% block title %}لوحة المتجر - مزاد القصيم{% endblock %}
+{% block content %}
+
+<div class="grid gap-6">
+
+  <section class="bg-white rounded-3xl shadow p-6 border overflow-hidden relative">
+    <div class="absolute -top-12 -left-12 w-40 h-40 rounded-full bg-palmGold/15"></div>
+    <div class="absolute -bottom-16 -right-16 w-56 h-56 rounded-full bg-dateBrown/10"></div>
+
+    <div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+      <div>
+        <div class="text-sm text-dateBrown/60 mb-2">لوحة تحكم المتجر</div>
+        <h1 class="text-3xl font-extrabold mb-2">{{ shop_profile.store_name }}</h1>
+        <p class="text-dateBrown/80 leading-7 max-w-3xl">
+          من هنا تقدر تدير منتجات متجرك، وتتابع الإحصائيات، وتحدث بيانات المتجر،
+          وتحوّل أي منتج إلى مزاد داخل المنصة بكل سهولة.
+        </p>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3">
+        <a href="{% url 'shops_product_create' %}"
+           class="px-6 py-3 rounded-2xl bg-palmGold text-dateBrown font-extrabold hover:opacity-95 text-center">
+          إضافة منتج جديد
+        </a>
+        <a href="{% url 'shops_products' %}"
+           class="px-6 py-3 rounded-2xl bg-dateBrown text-white font-extrabold hover:opacity-95 text-center">
+          إدارة المنتجات
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+    <div class="bg-white rounded-2xl shadow p-5 border">
+      <div class="text-xs text-dateBrown/60">عدد المنتجات</div>
+      <div class="text-3xl font-extrabold mt-2">{{ stats.products }}</div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow p-5 border">
+      <div class="text-xs text-dateBrown/60">المنتجات المتاحة</div>
+      <div class="text-3xl font-extrabold mt-2 text-palmGreen">{{ stats.available_products }}</div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow p-5 border">
+      <div class="text-xs text-dateBrown/60">المنتهي مخزونها</div>
+      <div class="text-3xl font-extrabold mt-2 text-urgentRed">{{ stats.out_of_stock }}</div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow p-5 border">
+      <div class="text-xs text-dateBrown/60">إجمالي المبيعات</div>
+      <div class="text-3xl font-extrabold mt-2">{{ stats.sales }} ر.س</div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow p-5 border">
+      <div class="text-xs text-dateBrown/60">زوار المتجر</div>
+      <div class="text-3xl font-extrabold mt-2">{{ stats.visitors }}</div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow p-5 border">
+      <div class="text-xs text-dateBrown/60">نشط الآن</div>
+      <div class="text-3xl font-extrabold mt-2">{{ stats.active_now }}</div>
+    </div>
+  </section>
+
+  <section class="grid lg:grid-cols-3 gap-4">
+    <div class="bg-white rounded-2xl shadow p-5 border">
+      <div class="font-extrabold mb-2">بيانات المتجر</div>
+      <p class="text-sm text-dateBrown/80 leading-7">
+        عدّل اسم المتجر، الشعار، البنر، ووصف المتجر حتى يظهر بشكل احترافي للزوار والعملاء.
+      </p>
+      <a href="{% url 'shops_profile' %}" class="inline-block mt-4 px-5 py-3 rounded-2xl bg-dateBrown text-white font-extrabold hover:opacity-95">
+        تعديل بيانات المتجر
+      </a>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow p-5 border">
+      <div class="font-extrabold mb-2">إدارة المنتجات</div>
+      <p class="text-sm text-dateBrown/80 leading-7">
+        أضف منتجات جديدة، وعدّل أسعارها، وتحكم بالمخزون، واحذف أي منتج غير متوفر.
+      </p>
+      <a href="{% url 'shops_products' %}" class="inline-block mt-4 px-5 py-3 rounded-2xl bg-palmGold text-dateBrown font-extrabold hover:opacity-95">
+        عرض المنتجات
+      </a>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow p-5 border">
+      <div class="font-extrabold mb-2">تحويل المنتجات إلى مزادات</div>
+      <p class="text-sm text-dateBrown/80 leading-7">
+        أي منتج من منتجات المتجر يمكن تحويله إلى مزاد داخل المنصة لزيادة التفاعل والبيع.
+      </p>
+      <a href="{% url 'shops_products' %}" class="inline-block mt-4 px-5 py-3 rounded-2xl bg-woodBrown text-white font-extrabold hover:opacity-95">
+        ابدأ الآن
+      </a>
+    </div>
+  </section>
+
+  <section class="bg-white rounded-3xl shadow p-6 border">
+    <div class="mb-5">
+      <h2 class="text-2xl font-extrabold">أحدث المنتجات</h2>
+      <div class="text-sm text-dateBrown/70 mt-1">عرض سريع لآخر المنتجات المضافة في متجرك</div>
+    </div>
+
+    <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
+      {% for product in recent_products %}
+        <div class="rounded-2xl border bg-sandBeige/50 overflow-hidden">
+          {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.title }}" class="w-full h-48 object-cover border-b">
+          {% else %}
+            <div class="w-full h-48 flex items-center justify-center bg-white border-b text-dateBrown/60">
+              لا توجد صورة
+            </div>
+          {% endif %}
+
+          <div class="p-4">
+            <div class="font-extrabold text-lg">{{ product.title }}</div>
+            <div class="text-sm text-dateBrown/70 mt-1">{{ product.category|default:"بدون تصنيف" }}</div>
+
+            <div class="grid grid-cols-2 gap-3 mt-4">
+              <div class="p-3 rounded-2xl bg-white border">
+                <div class="text-xs text-dateBrown/60">السعر</div>
+                <div class="font-extrabold mt-1 text-palmGold">{{ product.price }} ر.س</div>
+              </div>
+
+              <div class="p-3 rounded-2xl bg-white border">
+                <div class="text-xs text-dateBrown/60">المخزون</div>
+                <div class="font-extrabold mt-1">{{ product.stock }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <div class="sm:col-span-2 xl:col-span-3 bg-sandBeige rounded-2xl border p-8 text-center">
+          <div class="text-xl font-extrabold mb-2">ما عندك منتجات حالياً</div>
+          <p class="text-dateBrown/70 mb-5">ابدأ بإضافة أول منتج لمتجرك.</p>
+          <a href="{% url 'shops_product_create' %}"
+             class="inline-block px-6 py-3 rounded-2xl bg-palmGold text-dateBrown font-extrabold hover:opacity-95">
+            إضافة منتج جديد
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+
+</div>
+
+{% endblock %}

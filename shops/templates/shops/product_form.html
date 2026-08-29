@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}{% if is_edit %}تعديل المنتج{% else %}إضافة منتج جديد{% endif %} - مزاد القصيم{% endblock %}
+{% block content %}
+
+<div class="max-w-5xl mx-auto grid gap-6">
+
+  <section class="bg-white rounded-3xl shadow p-6 border">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      <div>
+        <div class="text-sm text-dateBrown/60 mb-2">{% if is_edit %}نموذج التعديل{% else %}نموذج الإضافة{% endif %}</div>
+        <h1 class="text-3xl font-extrabold mb-2">{% if is_edit %}تعديل المنتج{% else %}إضافة منتج جديد{% endif %}</h1>
+        <p class="text-dateBrown/80 leading-7 max-w-3xl">
+          أضف بيانات المنتج بشكل واضح حتى يظهر داخل المتجر بصورة احترافية ومنظمة.
+        </p>
+      </div>
+
+      <a href="{% url 'shops_products' %}"
+         class="inline-block px-5 py-3 rounded-2xl bg-dateBrown text-white font-extrabold hover:opacity-95 text-center">
+        العودة للمنتجات
+      </a>
+    </div>
+  </section>
+
+  <section class="bg-white rounded-3xl shadow p-6 border">
+    <form method="post" enctype="multipart/form-data" class="space-y-6">
+      {% csrf_token %}
+
+      <div class="grid lg:grid-cols-2 gap-6">
+        <div class="space-y-2">
+          <label class="block text-sm font-bold">اسم المنتج</label>
+          {{ form.title }}
+        </div>
+
+        <div class="space-y-2">
+          <label class="block text-sm font-bold">التصنيف</label>
+          {{ form.category }}
+        </div>
+
+        <div class="lg:col-span-2 space-y-2">
+          <label class="block text-sm font-bold">الوصف</label>
+          {{ form.description }}
+        </div>
+
+        <div class="space-y-2">
+          <label class="block text-sm font-bold">السعر</label>
+          {{ form.price }}
+        </div>
+
+        <div class="space-y-2">
+          <label class="block text-sm font-bold">المخزون</label>
+          {{ form.stock }}
+        </div>
+
+        <div class="space-y-2">
+          <label class="block text-sm font-bold">صورة المنتج</label>
+          {{ form.image }}
+          {% if is_edit and product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.title }}" class="w-32 h-32 object-cover rounded-2xl border mt-3">
+          {% endif %}
+        </div>
+
+        <div class="space-y-2">
+          <label class="block text-sm font-bold">الحالة</label>
+          <div class="flex items-center gap-3 mt-3">
+            {{ form.is_available }}
+            <span class="text-sm font-bold">المنتج متاح للبيع</span>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit"
+              class="w-full py-3 rounded-2xl bg-palmGold text-dateBrown font-extrabold hover:opacity-95">
+        {% if is_edit %}حفظ التعديلات{% else %}إضافة المنتج{% endif %}
+      </button>
+    </form>
+  </section>
+
+</div>
+
+{% endblock %}

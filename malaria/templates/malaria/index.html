@@ -1,0 +1,334 @@
+{% load static %}
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>الكشف عن الملاريا بالذكاء الاصطناعي</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(20, 184, 166, 0.18), transparent 30%),
+        radial-gradient(circle at bottom left, rgba(59, 130, 246, 0.14), transparent 32%),
+        linear-gradient(135deg, #f8fafc 0%, #ecfeff 45%, #f0fdf4 100%);
+      min-height: 100vh;
+    }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.75);
+    }
+
+    .upload-box {
+      transition: all 0.3s ease;
+    }
+
+    .upload-box:hover {
+      border-color: #14b8a6;
+      background: rgba(240, 253, 250, 0.85);
+      transform: translateY(-3px);
+    }
+
+    .medical-card {
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .medical-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 22px 45px rgba(15, 23, 42, 0.12);
+    }
+
+    .pulse-dot {
+      animation: pulseDot 1.8s ease-in-out infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% {
+        opacity: 0.35;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.25);
+      }
+    }
+  </style>
+</head>
+
+<body class="text-slate-900">
+
+  <!-- Header خاص بقسم الملاريا -->
+  <header class="max-w-7xl mx-auto px-5 md:px-8 py-6">
+    <div class="glass rounded-[28px] px-5 md:px-7 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4 shadow-sm">
+
+      <div class="flex items-center gap-4">
+        <div class="h-16 w-16 rounded-2xl bg-teal-50 border border-teal-100 flex items-center justify-center text-3xl shadow-sm">
+          🧬
+        </div>
+
+        <div>
+          <div class="text-sm text-slate-500 font-bold">قسم الذكاء الاصطناعي الطبي</div>
+          <div class="text-xl md:text-2xl font-black">الكشف عن الملاريا بالذكاء الاصطناعي</div>
+        </div>
+      </div>
+
+      <a href="{% url 'portal_home' %}"
+         class="px-5 py-3 rounded-2xl bg-slate-900 text-white font-extrabold hover:opacity-90 text-center">
+        العودة للصفحة الرئيسية
+      </a>
+
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-5 md:px-8 pb-12">
+
+    <!-- Hero -->
+    <section class="relative glass rounded-[36px] p-6 md:p-10 shadow-sm overflow-hidden mb-8">
+      <div class="absolute -top-20 -left-20 w-72 h-72 rounded-full bg-teal-400/20"></div>
+      <div class="absolute -bottom-24 -right-20 w-80 h-80 rounded-full bg-blue-400/20"></div>
+
+      <div class="relative z-10 grid lg:grid-cols-[1.1fr_.9fr] gap-8 items-center">
+        <div>
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 border text-sm font-extrabold text-slate-700 mb-5">
+            <span class="w-3 h-3 rounded-full bg-teal-500 pulse-dot"></span>
+            نموذج CNN لتحليل صور خلايا الدم
+          </div>
+
+          <h1 class="text-4xl md:text-5xl font-black leading-tight mb-5">
+            تحليل عينة الدم والتنبؤ بحالة
+            <span class="text-teal-700">الملاريا</span>
+          </h1>
+
+          <p class="text-slate-600 leading-9 text-lg max-w-4xl">
+            يتيح هذا القسم رفع صورة مجهرية لخلية الدم، ثم يقوم النموذج المدرب بتحليل الصورة
+            وتصنيفها إلى عينة مصابة أو سليمة بناءً على الأنماط البصرية التي تعلمها أثناء التدريب.
+          </p>
+        </div>
+
+        <div class="grid gap-4">
+          <div class="medical-card rounded-3xl bg-white p-5 border shadow-sm">
+            <div class="text-sm text-slate-500 font-bold mb-1">حجم الإدخال</div>
+            <div class="text-3xl font-black text-teal-700">128 × 128</div>
+            <div class="text-sm text-slate-500 mt-2">يتم توحيد حجم الصورة قبل التنبؤ</div>
+          </div>
+
+          <div class="medical-card rounded-3xl bg-white p-5 border shadow-sm">
+            <div class="text-sm text-slate-500 font-bold mb-1">نوع النموذج</div>
+            <div class="text-3xl font-black text-blue-700">CNN</div>
+            <div class="text-sm text-slate-500 mt-2">شبكة عصبية التفافية لتصنيف الصور</div>
+          </div>
+
+          <div class="medical-card rounded-3xl bg-white p-5 border shadow-sm">
+            <div class="text-sm text-slate-500 font-bold mb-1">المخرجات</div>
+            <div class="text-2xl font-black text-slate-900">مصاب / سليم</div>
+            <div class="text-sm text-slate-500 mt-2">Parasitized أو Uninfected</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Analysis Area -->
+    <section class="grid lg:grid-cols-[1fr_.9fr] gap-6">
+
+      <!-- Upload Card -->
+      <div class="bg-white rounded-[32px] shadow-sm border p-6 md:p-7">
+        <div class="mb-6">
+          <div class="text-sm text-teal-700 font-extrabold mb-2">رفع العينة</div>
+          <h2 class="text-3xl font-black mb-2">فحص صورة خلية الدم</h2>
+          <p class="text-slate-600 leading-8">
+            اختر صورة مجهرية واضحة، ثم اضغط على زر التحليل ليقوم النموذج بمعالجة الصورة وإظهار النتيجة.
+          </p>
+        </div>
+
+        <form method="post" enctype="multipart/form-data" class="space-y-5" id="analysisForm">
+          {% csrf_token %}
+
+          <div class="upload-box relative border-2 border-dashed border-slate-200 rounded-[28px] p-8 text-center bg-slate-50">
+            <div class="mx-auto h-20 w-20 rounded-3xl bg-teal-50 border border-teal-100 flex items-center justify-center text-4xl mb-4">
+              🔬
+            </div>
+
+            <h3 id="file-label" class="text-2xl font-black mb-2">
+              اضغط لاختيار صورة العينة
+            </h3>
+
+            <p class="text-sm text-slate-500">
+              الصيغ المدعومة: JPG / PNG / JPEG
+            </p>
+
+            <input
+              type="file"
+              name="my_image"
+              id="file-input"
+              accept="image/*"
+              required
+              class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+            >
+          </div>
+
+          <div id="progress-container" class="hidden rounded-2xl bg-teal-50 border border-teal-100 p-4">
+            <div class="flex items-center justify-between mb-2">
+              <p class="text-sm font-bold text-teal-800">جاري تحليل الصورة...</p>
+              <span class="text-sm font-black text-teal-700">AI</span>
+            </div>
+            <div class="w-full h-3 bg-white rounded-full overflow-hidden border border-teal-100">
+              <div class="h-full bg-teal-500 rounded-full animate-pulse" style="width: 100%;"></div>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            id="btn-text"
+            class="w-full py-4 rounded-2xl bg-teal-600 text-white font-black hover:bg-teal-700 shadow-lg shadow-teal-600/20">
+            بدء التحليل الذكي
+          </button>
+        </form>
+      </div>
+
+      <!-- Result Card -->
+      <div class="bg-white rounded-[32px] shadow-sm border p-6 md:p-7">
+        <div class="mb-6">
+          <div class="text-sm text-blue-700 font-extrabold mb-2">نتيجة النموذج</div>
+          <h2 class="text-3xl font-black mb-2">تقرير التحليل</h2>
+          <p class="text-slate-600 leading-8">
+            بعد رفع الصورة، تظهر هنا نتيجة التصنيف مع نسبة الثقة التقريبية والصورة التي تم تحليلها.
+          </p>
+        </div>
+
+        {% if prediction %}
+          <div class="grid gap-5">
+            {% if img_path %}
+              <div class="rounded-[28px] overflow-hidden border bg-slate-50">
+                <img src="{{ img_path }}" alt="الصورة المرفوعة" class="w-full h-72 object-cover">
+              </div>
+            {% endif %}
+
+            {% if 'Parasitized' in prediction %}
+              <div class="rounded-[28px] bg-red-50 border border-red-100 p-5">
+                <div class="text-sm font-bold text-red-600 mb-2">الحالة المتوقعة</div>
+                <div class="text-3xl font-black text-red-700 mb-3">إيجابي - طفيل مكتشف</div>
+                <p class="text-sm text-red-700 leading-7">
+                  النموذج صنّف العينة على أنها أقرب إلى فئة الخلايا المصابة بالملاريا.
+                </p>
+              </div>
+            {% else %}
+              <div class="rounded-[28px] bg-emerald-50 border border-emerald-100 p-5">
+                <div class="text-sm font-bold text-emerald-600 mb-2">الحالة المتوقعة</div>
+                <div class="text-3xl font-black text-emerald-700 mb-3">سلبي - عينة سليمة</div>
+                <p class="text-sm text-emerald-700 leading-7">
+                  النموذج صنّف العينة على أنها أقرب إلى فئة الخلايا غير المصابة.
+                </p>
+              </div>
+            {% endif %}
+
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div class="rounded-2xl bg-slate-50 border p-4">
+                <div class="text-xs text-slate-500 font-bold mb-1">النتيجة التقنية</div>
+                <div class="font-black text-slate-900">{{ prediction }}</div>
+              </div>
+
+              <div class="rounded-2xl bg-slate-50 border p-4">
+                <div class="text-xs text-slate-500 font-bold mb-1">نسبة الثقة التقريبية</div>
+                <div class="font-black text-slate-900">
+                  {% if confidence %}
+                    {{ confidence|floatformat:2 }}%
+                  {% else %}
+                    غير متاحة
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        {% else %}
+          <div class="h-[430px] rounded-[28px] bg-slate-50 border border-dashed border-slate-200 flex flex-col items-center justify-center text-center p-6">
+            <div class="h-20 w-20 rounded-3xl bg-white border flex items-center justify-center text-4xl mb-4">
+              🧪
+            </div>
+            <div class="text-2xl font-black mb-2">لم يتم رفع صورة بعد</div>
+            <p class="text-slate-500 leading-7 max-w-md">
+              ستظهر نتيجة التحليل هنا بعد اختيار صورة العينة وتشغيل نموذج الذكاء الاصطناعي.
+            </p>
+          </div>
+        {% endif %}
+      </div>
+
+    </section>
+
+    <!-- Information Section -->
+    <section class="grid md:grid-cols-3 gap-5 mt-6">
+      <div class="bg-white rounded-[28px] border shadow-sm p-5">
+        <div class="h-12 w-12 rounded-2xl bg-teal-50 text-teal-700 flex items-center justify-center text-2xl mb-4">
+          1
+        </div>
+        <h3 class="text-xl font-black mb-2">رفع الصورة</h3>
+        <p class="text-sm text-slate-600 leading-7">
+          يرفع المستخدم صورة خلية الدم من الجهاز، ويتم حفظها مؤقتًا داخل مجلد الوسائط الخاص بالمشروع.
+        </p>
+      </div>
+
+      <div class="bg-white rounded-[28px] border shadow-sm p-5">
+        <div class="h-12 w-12 rounded-2xl bg-blue-50 text-blue-700 flex items-center justify-center text-2xl mb-4">
+          2
+        </div>
+        <h3 class="text-xl font-black mb-2">معالجة الصورة</h3>
+        <p class="text-sm text-slate-600 leading-7">
+          يتم تغيير حجم الصورة إلى 128×128 وتطبيع القيم الرقمية حتى تصبح مناسبة لإدخالها إلى النموذج.
+        </p>
+      </div>
+
+      <div class="bg-white rounded-[28px] border shadow-sm p-5">
+        <div class="h-12 w-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center text-2xl mb-4">
+          3
+        </div>
+        <h3 class="text-xl font-black mb-2">عرض النتيجة</h3>
+        <p class="text-sm text-slate-600 leading-7">
+          يعرض النظام النتيجة النهائية، سواء كانت العينة مصابة أو سليمة، مع نسبة الثقة التقريبية.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="max-w-7xl mx-auto px-5 md:px-8 pb-6">
+    <div class="glass rounded-[24px] px-6 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-sm text-slate-600">
+      <div class="font-bold">نظام الكشف عن الملاريا باستخدام الذكاء الاصطناعي</div>
+      <div>قسم مستقل ضمن منصة المشاريع الرقمية الذكية</div>
+    </div>
+  </footer>
+
+  <script>
+    const fileInput = document.getElementById('file-input');
+    const fileLabel = document.getElementById('file-label');
+    const form = document.getElementById('analysisForm');
+    const progress = document.getElementById('progress-container');
+    const btnText = document.getElementById('btn-text');
+
+    if (fileInput) {
+      fileInput.onchange = function() {
+        if (this.files[0]) {
+          fileLabel.innerHTML = "تم اختيار: " + this.files[0].name;
+        }
+      };
+    }
+
+    if (form) {
+      form.onsubmit = function() {
+        progress.classList.remove("hidden");
+        btnText.innerHTML = "جاري الفحص...";
+        btnText.disabled = true;
+        btnText.classList.add("opacity-70");
+      };
+    }
+  </script>
+
+</body>
+</html>

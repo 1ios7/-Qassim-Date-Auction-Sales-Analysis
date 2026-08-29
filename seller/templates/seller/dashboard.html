@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+{% block title %}لوحة البائع - مزاد القصيم{% endblock %}
+{% block content %}
+
+<div class="grid gap-6">
+
+  <section class="bg-white rounded-3xl shadow p-6 border overflow-hidden relative">
+    <div class="absolute -top-12 -left-12 w-40 h-40 rounded-full bg-palmGold/15"></div>
+    <div class="absolute -bottom-16 -right-16 w-56 h-56 rounded-full bg-dateBrown/10"></div>
+
+    <div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+      <div>
+        <div class="text-sm text-dateBrown/60 mb-2">لوحة التحكم</div>
+        <h1 class="text-3xl font-extrabold mb-2">مرحباً بك في لوحة البائع</h1>
+        <p class="text-dateBrown/80 leading-7 max-w-3xl">
+          من هنا تقدر تتابع مزاداتك، وتشوف حالتها بشكل سريع، وتضيف مزاد جديد،
+          وتراجع أداء مزاداتك الحالية بطريقة أوضح وأسهل.
+        </p>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3">
+        <a href="{% url 'seller_new_auction' %}"
+           class="px-6 py-3 rounded-2xl bg-palmGold text-dateBrown font-extrabold hover:opacity-95 text-center">
+          إضافة مزاد جديد
+        </a>
+        <a href="#seller-auctions"
+           class="px-6 py-3 rounded-2xl bg-dateBrown text-white font-extrabold hover:opacity-95 text-center">
+          عرض مزاداتي
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid sm:grid-cols-2 xl:grid-cols-5 gap-4">
+    <div class="bg-white rounded-2xl shadow p-5 border">
+      <div class="text-xs text-dateBrown/60 mb-2">إجمالي مزاداتي</div>
+      <div class="text-3xl font-extrabold text-dateBrown">{{ stats.total }}</div>
+      <div class="text-sm text-dateBrown/70 mt-2">كل المزادات المسجلة باسمك</div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow p-5 border">
+      <div class="text-xs text-dateBrown/60 mb-2">المفتوح</div>
+      <div class="text-3xl font-extrabold text-palmGreen">{{ stats.open }}</div>
+      <div class="text-sm text-dateBrown/70 mt-2">مزادات نشطة الآن</div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow p-5 border">
+      <div class="text-xs text-dateBrown/60 mb-2">المقفل</div>
+      <div class="text-3xl font-extrabold text-urgentRed">{{ stats.closed }}</div>
+      <div class="text-sm text-dateBrown/70 mt-2">مزادات انتهى وقتها</div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow p-5 border">
+      <div class="text-xs text-dateBrown/60 mb-2">المعلق</div>
+      <div class="text-3xl font-extrabold text-dateBrown">{{ stats.suspended }}</div>
+      <div class="text-sm text-dateBrown/70 mt-2">بحاجة مراجعة أو انتظار</div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow p-5 border">
+      <div class="text-xs text-dateBrown/60 mb-2">الملغي</div>
+      <div class="text-3xl font-extrabold text-dateBrown">{{ stats.cancelled }}</div>
+      <div class="text-sm text-dateBrown/70 mt-2">مزادات تم إلغاؤها</div>
+    </div>
+  </section>
+
+  <section class="bg-white rounded-3xl shadow p-5 border">
+    <div class="flex items-center justify-between gap-3">
+      <div>
+        <h2 class="text-xl font-extrabold">معلومات سريعة</h2>
+        <div class="text-sm text-dateBrown/70 mt-1">
+          اضغط على زر المعلومات لعرض تفاصيل إضافية عن لوحة البائع
+        </div>
+      </div>
+
+      <button
+        type="button"
+        class="infoToggle shrink-0 w-11 h-11 rounded-full bg-palmGold text-dateBrown font-extrabold text-xl hover:opacity-95 transition border border-dateBrown/10 shadow-sm"
+        data-target="sellerInfoBox"
+        aria-label="عرض المعلومات">
+        !
+      </button>
+    </div>
+
+    <div id="sellerInfoBox" class="hidden mt-5 pt-5 border-t">
+      <div class="grid lg:grid-cols-3 gap-4">
+        <div class="rounded-2xl bg-sandBeige border p-5">
+          <div class="font-extrabold mb-2">ماذا يمكنك فعله الآن؟</div>
+          <ul class="space-y-2 text-sm text-dateBrown/80 leading-7">
+            <li>إضافة مزاد جديد بصور متعددة وتفاصيل كاملة.</li>
+            <li>مراجعة حالة مزاداتك الحالية بشكل سريع.</li>
+            <li>متابعة عدد المزايدات على كل مزاد.</li>
+            <li>الوصول السريع إلى صفحة التعديل أو العرض.</li>
+          </ul>
+        </div>
+
+        <div class="rounded-2xl bg-sandBeige border p-5">
+          <div class="font-extrabold mb-2">شرح البطاقات والإحصائيات</div>
+          <div class="text-sm text-dateBrown/80 leading-7">
+            الأرقام الموجودة بالأعلى تعطيك نظرة عامة مباشرة على وضع مزاداتك.
+            إجمالي المزادات يعني كل المزادات المسجلة باسمك، والمفتوح يعني المزادات النشطة الآن،
+            والمقفل يعني المزادات التي انتهى وقتها، أما المعلق والملغي فهما مخصصان للحالات الإدارية لاحقًا.
+          </div>
+        </div>
+
+        <div class="rounded-2xl bg-sandBeige border p-5">
+          <div class="font-extrabold mb-2">تفاصيل إضافية مهمة</div>
+          <div class="text-sm text-dateBrown/80 leading-7">
+            كل بطاقة مزاد بالأسفل تعرض لك معلومات سريعة مثل السعر الحالي،
+            وعدد المزايدات، وعدد المشاهدين الآن عند تفعيل الميزة،
+            بالإضافة إلى حالة المزاد ووقت النهاية.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="seller-auctions" class="bg-white rounded-3xl shadow p-6 border">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
+      <div>
+        <h2 class="text-2xl font-extrabold">مزاداتي</h2>
+        <div class="text-sm text-dateBrown/70 mt-1">عرض مرتب لكل مزاداتك الحالية</div>
+      </div>
+
+      <a href="{% url 'seller_new_auction' %}"
+         class="inline-block px-5 py-3 rounded-2xl bg-palmGold text-dateBrown font-extrabold hover:opacity-95 text-center">
+        إضافة مزاد جديد
+      </a>
+    </div>
+
+    <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
+      {% for a in auctions %}
+        <div class="rounded-2xl border bg-sandBeige/50 overflow-hidden">
+          {% with first_image=a.images.all|first %}
+            {% if first_image %}
+              <img
+                src="{{ first_image.image.url }}"
+                alt="{{ a.title }}"
+                class="w-full h-48 object-cover border-b"
+              >
+            {% else %}
+              <div class="w-full h-48 flex items-center justify-center bg-white border-b text-dateBrown/60">
+                لا توجد صورة
+              </div>
+            {% endif %}
+          {% endwith %}
+
+          <div class="p-4">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <div class="font-extrabold text-lg">{{ a.title }}</div>
+                <div class="text-sm text-dateBrown/70 line-clamp-2 mt-1">
+                  {{ a.description|default:"لا يوجد وصف لهذا المزاد حالياً." }}
+                </div>
+              </div>
+
+              {% if a.is_open %}
+                <span class="text-xs px-3 py-1 rounded-full bg-palmGreen text-white">مفتوح</span>
+              {% else %}
+                <span class="text-xs px-3 py-1 rounded-full bg-urgentRed text-white">مقفل</span>
+              {% endif %}
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 mt-4">
+              <div class="p-3 rounded-2xl bg-white border">
+                <div class="text-xs text-dateBrown/60">السعر الحالي</div>
+                <div class="font-extrabold text-palmGold mt-1">{{ a.current_price }} ر.س</div>
+              </div>
+
+              <div class="p-3 rounded-2xl bg-white border">
+                <div class="text-xs text-dateBrown/60">عدد المزايدات</div>
+                <div class="font-extrabold text-dateBrown mt-1">{{ a.bids.count }}</div>
+              </div>
+
+              <div class="p-3 rounded-2xl bg-white border">
+                <div class="text-xs text-dateBrown/60">المشاهدون الآن</div>
+                <div class="font-extrabold text-dateBrown mt-1">{{ a.active_viewers|default:0 }}</div>
+              </div>
+
+              <div class="p-3 rounded-2xl bg-white border">
+                <div class="text-xs text-dateBrown/60">ينتهي في</div>
+                <div class="font-extrabold text-dateBrown mt-1">{{ a.end_time|date:"Y-m-d" }}</div>
+              </div>
+            </div>
+
+            <div class="mt-4 grid grid-cols-3 gap-2">
+              <a href="{% url 'auction_detail' a.pk %}"
+                 class="text-center px-4 py-2 rounded-2xl bg-dateBrown text-white font-bold hover:opacity-95">
+                عرض
+              </a>
+
+              <a href="{% url 'seller_edit_auction' a.pk %}"
+                 class="text-center px-4 py-2 rounded-2xl bg-woodBrown text-white font-bold hover:bg-palmGold hover:text-dateBrown transition">
+                تعديل
+              </a>
+
+              <form method="post" action="{% url 'seller_delete_auction' a.pk %}" onsubmit="return confirm('متأكد تبي تحذف المزاد؟');">
+                {% csrf_token %}
+                <button
+                  type="submit"
+                  class="w-full text-center px-4 py-2 rounded-2xl bg-urgentRed text-white font-bold hover:opacity-95">
+                  حذف
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <div class="sm:col-span-2 xl:col-span-3 bg-sandBeige rounded-2xl border p-8 text-center">
+          <div class="text-xl font-extrabold mb-2">ما عندك مزادات حالياً</div>
+          <p class="text-dateBrown/70 mb-5">
+            ابدأ بإضافة أول مزاد لك، وبعدها راح تظهر هنا بطاقات مزاداتك بشكل مرتب.
+          </p>
+          <a href="{% url 'seller_new_auction' %}"
+             class="inline-block px-6 py-3 rounded-2xl bg-palmGold text-dateBrown font-extrabold hover:opacity-95">
+            إضافة مزاد جديد
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".infoToggle").forEach((btn) => {
+      btn.addEventListener("click", function () {
+        const targetId = this.getAttribute("data-target");
+        const box = document.getElementById(targetId);
+        if (box) {
+          box.classList.toggle("hidden");
+        }
+      });
+    });
+  });
+</script>
+
+{% endblock %}

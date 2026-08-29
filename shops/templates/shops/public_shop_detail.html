@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% block title %}{{ shop.store_name }} - مزاد القصيم{% endblock %}
+{% block content %}
+
+<div class="grid gap-6">
+
+  <section class="bg-white rounded-3xl shadow border overflow-hidden">
+    {% if shop.banner %}
+      <img src="{{ shop.banner.url }}" alt="{{ shop.store_name }}" class="w-full h-56 object-cover border-b">
+    {% else %}
+      <div class="w-full h-56 bg-sandBeige border-b flex items-center justify-center text-dateBrown/60">
+        بدون بنر
+      </div>
+    {% endif %}
+
+    <div class="p-6">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+        <div class="flex items-center gap-4">
+          {% if shop.logo %}
+            <img src="{{ shop.logo.url }}" alt="{{ shop.store_name }}" class="w-24 h-24 object-cover rounded-3xl border">
+          {% else %}
+            <div class="w-24 h-24 rounded-3xl border bg-sandBeige flex items-center justify-center text-dateBrown/60">
+              شعار
+            </div>
+          {% endif %}
+
+          <div>
+            <h1 class="text-3xl font-extrabold mb-1">{{ shop.store_name }}</h1>
+            <div class="text-sm text-dateBrown/70 mb-1">{{ shop.city|default:"داخل المنصة" }}</div>
+            <div class="text-sm text-dateBrown/80">{{ shop.owner_name|default:"صاحب المتجر" }}</div>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3">
+          <a href="{% url 'public_shops_list' %}"
+             class="px-5 py-3 rounded-2xl bg-dateBrown text-white font-extrabold hover:opacity-95 text-center">
+            كل المتاجر
+          </a>
+
+          {% if user.is_authenticated %}
+            <a href="{% url 'shops_cart' %}"
+               class="px-5 py-3 rounded-2xl bg-palmGold text-dateBrown font-extrabold hover:opacity-95 text-center">
+              السلة
+            </a>
+          {% else %}
+            <a href="{% url 'login' %}"
+               class="px-5 py-3 rounded-2xl bg-palmGold text-dateBrown font-extrabold hover:opacity-95 text-center">
+              سجل دخول للشراء
+            </a>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="mt-5 p-4 rounded-2xl bg-sandBeige border text-dateBrown/80 leading-8">
+        {{ shop.description|default:"لا توجد نبذة عن هذا المتجر حالياً." }}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white rounded-3xl shadow p-6 border">
+    <div class="mb-5">
+      <h2 class="text-2xl font-extrabold">منتجات المتجر</h2>
+      <div class="text-sm text-dateBrown/70 mt-1">جميع المنتجات المتاحة للشراء</div>
+    </div>
+
+    <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
+      {% for product in products %}
+        <div class="rounded-2xl border bg-sandBeige/50 overflow-hidden">
+          {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.title }}" class="w-full h-52 object-cover border-b">
+          {% else %}
+            <div class="w-full h-52 flex items-center justify-center bg-white border-b text-dateBrown/60">
+              لا توجد صورة
+            </div>
+          {% endif %}
+
+          <div class="p-4">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <div class="font-extrabold text-lg">{{ product.title }}</div>
+                <div class="text-sm text-dateBrown/70 mt-1">{{ product.category|default:"بدون تصنيف" }}</div>
+              </div>
+
+              {% if product.is_available %}
+                <span class="text-xs px-3 py-1 rounded-full bg-palmGreen text-white">متاح</span>
+              {% else %}
+                <span class="text-xs px-3 py-1 rounded-full bg-urgentRed text-white">غير متاح</span>
+              {% endif %}
+            </div>
+
+            <div class="text-sm text-dateBrown/80 leading-7 mt-3 line-clamp-3">
+              {{ product.description|default:"لا يوجد وصف لهذا المنتج." }}
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 mt-4">
+              <div class="p-3 rounded-2xl bg-white border">
+                <div class="text-xs text-dateBrown/60">السعر</div>
+                <div class="font-extrabold mt-1 text-palmGold">{{ product.price }} ر.س</div>
+              </div>
+
+              <div class="p-3 rounded-2xl bg-white border">
+                <div class="text-xs text-dateBrown/60">المخزون</div>
+                <div class="font-extrabold mt-1">{{ product.stock }}</div>
+              </div>
+            </div>
+
+            {% if user.is_authenticated %}
+              <form method="post" action="{% url 'shops_add_to_cart' product.pk %}" class="mt-4 space-y-3">
+                {% csrf_token %}
+
+                <div class="space-y-2">
+                  <label class="block text-sm font-bold">الكمية</label>
+                  <input type="number" name="quantity" min="1" value="1"
+                         class="w-full p-3 rounded-xl border border-dateBrown/30 bg-white text-dateBrown focus:border-dateBrown focus:ring-2 focus:ring-palmGold outline-none">
+                </div>
+
+                <button type="submit"
+                        class="w-full py-3 rounded-2xl bg-dateBrown text-white font-extrabold hover:opacity-95">
+                  إضافة إلى السلة
+                </button>
+              </form>
+            {% else %}
+              <a href="{% url 'login' %}"
+                 class="block mt-4 text-center py-3 rounded-2xl bg-dateBrown text-white font-extrabold hover:opacity-95">
+                سجل دخول للشراء
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      {% empty %}
+        <div class="sm:col-span-2 xl:col-span-3 bg-sandBeige rounded-2xl border p-8 text-center">
+          <div class="text-xl font-extrabold mb-2">لا توجد منتجات حالياً</div>
+          <p class="text-dateBrown/70">سيتم عرض المنتجات هنا عند إضافتها من قبل المتجر.</p>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+
+</div>
+{% endblock %}

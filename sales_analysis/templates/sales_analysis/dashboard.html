@@ -1,0 +1,397 @@
+{% load static %}
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>نظام تحليل وهندسة بيانات المبيعات</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(124, 58, 237, 0.16), transparent 30%),
+        radial-gradient(circle at bottom left, rgba(14, 165, 233, 0.14), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(16, 185, 129, 0.10), transparent 30%),
+        linear-gradient(135deg, #f8fafc 0%, #eef2ff 45%, #f0fdfa 100%);
+      min-height: 100vh;
+    }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.84);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.76);
+    }
+
+    .metric-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .metric-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+    }
+
+    .chart-card {
+      min-height: 390px;
+    }
+
+    canvas {
+      max-height: 280px;
+    }
+  </style>
+</head>
+
+<body class="text-slate-900">
+
+  <!-- Header مستقل -->
+  <header class="max-w-7xl mx-auto px-5 md:px-8 py-6">
+    <div class="glass rounded-[28px] px-5 md:px-7 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4 shadow-sm">
+
+      <div class="flex items-center gap-4">
+        <div class="h-16 w-16 rounded-2xl bg-violet-50 border border-violet-100 flex items-center justify-center text-4xl shadow-sm">
+          📊
+        </div>
+
+        <div>
+          <div class="text-sm text-violet-700 font-extrabold">قسم هندسة وتحليل البيانات</div>
+          <div class="text-xl md:text-2xl font-black">نظام تحليل بيانات المبيعات</div>
+        </div>
+      </div>
+
+      <a href="{% url 'portal_home' %}"
+         class="px-5 py-3 rounded-2xl bg-slate-900 text-white font-extrabold hover:opacity-90 text-center">
+        العودة للصفحة الرئيسية
+      </a>
+
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-5 md:px-8 pb-12">
+
+    {% if status == "error" %}
+      <section class="bg-white rounded-[32px] shadow-sm border p-10 text-center">
+        <div class="text-3xl font-black text-red-700 mb-3">لم يتم العثور على ملف البيانات</div>
+        <p class="text-slate-600 leading-8">
+          تأكد من وجود الملف باسم sales_data_sample.csv داخل المسار sales_analysis/data.
+        </p>
+      </section>
+    {% else %}
+
+    <!-- Hero -->
+    <section class="relative glass rounded-[36px] p-6 md:p-10 shadow-sm overflow-hidden mb-8">
+      <div class="absolute -top-24 -left-20 w-80 h-80 rounded-full bg-violet-400/20"></div>
+      <div class="absolute -bottom-24 -right-20 w-80 h-80 rounded-full bg-sky-400/20"></div>
+
+      <div class="relative z-10 grid lg:grid-cols-[1.1fr_.9fr] gap-8 items-center">
+        <div>
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 border text-sm font-extrabold text-slate-700 mb-5">
+            لوحة تحليل مبنية على بيانات CSV حقيقية
+          </div>
+
+          <h1 class="text-4xl md:text-5xl font-black leading-tight mb-5">
+            قراءة وتحليل بيانات المبيعات بطريقة
+            <span class="text-violet-700">هندسية وذكية</span>
+          </h1>
+
+          <p class="text-slate-600 leading-9 text-lg max-w-4xl">
+            يعرض هذا القسم ملخصًا تحليليًا لبيانات المبيعات، ويحوّل البيانات الخام إلى مؤشرات ورسوم بيانية تساعد على فهم الأداء، المنتجات الأكثر مبيعًا، الأسواق الأعلى قيمة، وحالة الطلبات.
+          </p>
+        </div>
+
+        <div class="rounded-[32px] bg-gradient-to-br from-violet-700 to-slate-900 text-white p-6 shadow-lg">
+          <div class="text-sm opacity-80 mb-2">ملخص البيانات</div>
+          <div class="text-3xl font-black mb-5">Sales Dataset</div>
+
+          <div class="grid gap-3">
+            <div class="p-4 rounded-2xl bg-white/10 border border-white/10 flex justify-between">
+              <span>عدد السجلات</span>
+              <b>{{ total_rows }}</b>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-white/10 border border-white/10 flex justify-between">
+              <span>عدد الأعمدة</span>
+              <b>{{ total_columns }}</b>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-white/10 border border-white/10 flex justify-between">
+              <span>إجمالي المبيعات</span>
+              <b>{{ total_sales }}</b>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Metrics -->
+    <section class="grid sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+
+      <div class="metric-card bg-white rounded-[28px] shadow-sm p-5 border">
+        <div class="text-xs text-slate-500 font-bold mb-2">إجمالي المبيعات</div>
+        <div class="text-3xl font-black text-violet-700">{{ total_sales }}</div>
+        <div class="text-sm text-slate-500 mt-2">قيمة إجمالية من ملف البيانات</div>
+      </div>
+
+      <div class="metric-card bg-white rounded-[28px] shadow-sm p-5 border">
+        <div class="text-xs text-slate-500 font-bold mb-2">إجمالي الكميات</div>
+        <div class="text-3xl font-black text-emerald-700">{{ total_quantity }}</div>
+        <div class="text-sm text-slate-500 mt-2">عدد الوحدات المطلوبة</div>
+      </div>
+
+      <div class="metric-card bg-white rounded-[28px] shadow-sm p-5 border">
+        <div class="text-xs text-slate-500 font-bold mb-2">متوسط قيمة الطلب</div>
+        <div class="text-3xl font-black text-sky-700">{{ average_order_value }}</div>
+        <div class="text-sm text-slate-500 mt-2">متوسط المبيعات لكل سجل</div>
+      </div>
+
+      <div class="metric-card bg-white rounded-[28px] shadow-sm p-5 border">
+        <div class="text-xs text-slate-500 font-bold mb-2">أعلى طلب</div>
+        <div class="text-3xl font-black text-amber-600">{{ max_order_value }}</div>
+        <div class="text-sm text-slate-500 mt-2">أعلى قيمة مسجلة</div>
+      </div>
+
+      <div class="metric-card bg-white rounded-[28px] shadow-sm p-5 border">
+        <div class="text-xs text-slate-500 font-bold mb-2">عدد العملاء</div>
+        <div class="text-3xl font-black text-slate-900">{{ unique_customers }}</div>
+        <div class="text-sm text-slate-500 mt-2">عملاء مختلفون</div>
+      </div>
+
+      <div class="metric-card bg-white rounded-[28px] shadow-sm p-5 border">
+        <div class="text-xs text-slate-500 font-bold mb-2">عدد الدول</div>
+        <div class="text-3xl font-black text-slate-900">{{ unique_countries }}</div>
+        <div class="text-sm text-slate-500 mt-2">أسواق جغرافية</div>
+      </div>
+
+      <div class="metric-card bg-white rounded-[28px] shadow-sm p-5 border">
+        <div class="text-xs text-slate-500 font-bold mb-2">خطوط المنتجات</div>
+        <div class="text-3xl font-black text-slate-900">{{ unique_products }}</div>
+        <div class="text-sm text-slate-500 mt-2">تصنيفات منتجات مختلفة</div>
+      </div>
+
+      <div class="metric-card bg-white rounded-[28px] shadow-sm p-5 border">
+        <div class="text-xs text-slate-500 font-bold mb-2">أفضل سوق</div>
+        <div class="text-2xl font-black text-violet-700">{{ top_country_name }}</div>
+        <div class="text-sm text-slate-500 mt-2">حسب إجمالي المبيعات</div>
+      </div>
+
+    </section>
+
+    <!-- Insight Cards -->
+    <section class="grid lg:grid-cols-3 gap-4 mb-6">
+      <div class="bg-white rounded-[28px] shadow-sm border p-5">
+        <div class="text-sm text-violet-700 font-black mb-2">أفضل منتج</div>
+        <div class="text-2xl font-black mb-2">{{ top_product_name }}</div>
+        <p class="text-sm text-slate-600 leading-7">
+          تم تحديده بناءً على أعلى إجمالي مبيعات بين خطوط المنتجات داخل ملف البيانات.
+        </p>
+      </div>
+
+      <div class="bg-white rounded-[28px] shadow-sm border p-5">
+        <div class="text-sm text-sky-700 font-black mb-2">أفضل سوق جغرافي</div>
+        <div class="text-2xl font-black mb-2">{{ top_country_name }}</div>
+        <p class="text-sm text-slate-600 leading-7">
+          يعكس السوق الأعلى مساهمة في إجمالي المبيعات مقارنة ببقية الدول.
+        </p>
+      </div>
+
+      <div class="bg-white rounded-[28px] shadow-sm border p-5">
+        <div class="text-sm text-emerald-700 font-black mb-2">الهدف التحليلي</div>
+        <div class="text-2xl font-black mb-2">تحويل البيانات إلى قرار</div>
+        <p class="text-sm text-slate-600 leading-7">
+          تساعد المؤشرات والرسوم البيانية في فهم اتجاهات الأداء وتحديد نقاط القوة في المبيعات.
+        </p>
+      </div>
+    </section>
+
+    <!-- Charts -->
+    <section class="grid xl:grid-cols-2 gap-6 mb-6">
+
+      <div class="chart-card bg-white rounded-[32px] shadow-sm p-6 border">
+        <div class="mb-5">
+          <h2 class="text-2xl font-black">المبيعات حسب خط المنتج</h2>
+          <p class="text-slate-500 mt-1">يوضح الرسم أعلى خطوط المنتجات من حيث إجمالي المبيعات.</p>
+        </div>
+        <canvas id="productsChart"></canvas>
+      </div>
+
+      <div class="chart-card bg-white rounded-[32px] shadow-sm p-6 border">
+        <div class="mb-5">
+          <h2 class="text-2xl font-black">المبيعات حسب الدول</h2>
+          <p class="text-slate-500 mt-1">يوضح الرسم أكثر الأسواق الجغرافية تحقيقًا للمبيعات.</p>
+        </div>
+        <canvas id="countriesChart"></canvas>
+      </div>
+
+      <div class="chart-card bg-white rounded-[32px] shadow-sm p-6 border">
+        <div class="mb-5">
+          <h2 class="text-2xl font-black">حالة الطلبات</h2>
+          <p class="text-slate-500 mt-1">توزيع السجلات حسب حالة الطلب داخل ملف البيانات.</p>
+        </div>
+        <canvas id="statusChart"></canvas>
+      </div>
+
+      <div class="chart-card bg-white rounded-[32px] shadow-sm p-6 border">
+        <div class="mb-5">
+          <h2 class="text-2xl font-black">اتجاه المبيعات عبر الوقت</h2>
+          <p class="text-slate-500 mt-1">تحليل المبيعات حسب الأشهر والسنوات المتاحة.</p>
+        </div>
+        <canvas id="monthlyChart"></canvas>
+      </div>
+
+    </section>
+
+    <!-- Data Preview -->
+    <section class="bg-white rounded-[32px] shadow-sm border p-6">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-5">
+        <div>
+          <h2 class="text-2xl font-black">معاينة البيانات</h2>
+          <p class="text-slate-500 mt-1">عرض أول 10 سجلات من ملف البيانات بعد قراءته ومعالجته.</p>
+        </div>
+
+        <a href="{% url 'sales_analysis_download' %}"
+           class="px-5 py-3 rounded-2xl bg-slate-900 text-white font-extrabold text-center hover:opacity-90">
+          تحميل ملف البيانات
+        </a>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-separate border-spacing-y-2">
+          <thead>
+            <tr class="text-slate-500">
+              {% for col in preview_columns %}
+                <th class="text-right p-3 whitespace-nowrap">{{ col }}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for row in preview_rows %}
+              <tr class="bg-violet-50">
+                {% for cell in row %}
+                  <td class="p-3 whitespace-nowrap">
+                    {{ cell }}
+                  </td>
+                {% endfor %}
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="{{ preview_columns|length }}" class="p-6 text-center bg-violet-50 rounded-2xl">
+                  لا توجد بيانات للعرض
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    {% endif %}
+
+  </main>
+
+  <footer class="max-w-7xl mx-auto px-5 md:px-8 pb-6">
+    <div class="glass rounded-[24px] px-6 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-sm text-slate-600">
+      <div class="font-bold">نظام تحليل وهندسة بيانات المبيعات</div>
+      <div>قسم مستقل ضمن منصة المشاريع الرقمية الذكية</div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    const topProductsLabels = {{ top_products_labels|safe }};
+    const topProductsValues = {{ top_products_values|safe }};
+
+    const countrySalesLabels = {{ country_sales_labels|safe }};
+    const countrySalesValues = {{ country_sales_values|safe }};
+
+    const statusLabels = {{ status_labels|safe }};
+    const statusValues = {{ status_values|safe }};
+
+    const monthlyLabels = {{ monthly_labels|safe }};
+    const monthlyValues = {{ monthly_values|safe }};
+
+    new Chart(document.getElementById("productsChart"), {
+      type: "bar",
+      data: {
+        labels: topProductsLabels,
+        datasets: [{
+          label: "إجمالي المبيعات",
+          data: topProductsValues,
+          backgroundColor: "rgba(124, 58, 237, 0.75)",
+          borderColor: "rgba(124, 58, 237, 1)",
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } }
+      }
+    });
+
+    new Chart(document.getElementById("countriesChart"), {
+      type: "bar",
+      data: {
+        labels: countrySalesLabels,
+        datasets: [{
+          label: "إجمالي المبيعات",
+          data: countrySalesValues,
+          backgroundColor: "rgba(14, 165, 233, 0.75)",
+          borderColor: "rgba(14, 165, 233, 1)",
+          borderWidth: 1
+        }]
+      },
+      options: {
+        indexAxis: "y",
+        responsive: true,
+        plugins: { legend: { display: false } }
+      }
+    });
+
+    new Chart(document.getElementById("statusChart"), {
+      type: "doughnut",
+      data: {
+        labels: statusLabels,
+        datasets: [{
+          data: statusValues,
+          backgroundColor: [
+            "rgba(16, 185, 129, 0.8)",
+            "rgba(245, 158, 11, 0.8)",
+            "rgba(239, 68, 68, 0.8)",
+            "rgba(59, 130, 246, 0.8)",
+            "rgba(139, 92, 246, 0.8)"
+          ]
+        }]
+      },
+      options: {
+        responsive: true
+      }
+    });
+
+    new Chart(document.getElementById("monthlyChart"), {
+      type: "line",
+      data: {
+        labels: monthlyLabels,
+        datasets: [{
+          label: "المبيعات",
+          data: monthlyValues,
+          borderColor: "rgba(124, 58, 237, 1)",
+          backgroundColor: "rgba(124, 58, 237, 0.15)",
+          fill: true,
+          tension: 0.35
+        }]
+      },
+      options: {
+        responsive: true
+      }
+    });
+  </script>
+
+</body>
+</html>

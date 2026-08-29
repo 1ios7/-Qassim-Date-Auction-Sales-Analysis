@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}إنشاء حساب - مزاد القصيم{% endblock %}
+{% block content %}
+
+<div class="max-w-2xl mx-auto bg-white rounded-2xl shadow p-6 border">
+  <h1 class="text-2xl font-extrabold mb-4">إنشاء حساب جديد</h1>
+
+  <form method="post" class="space-y-4">
+    {% csrf_token %}
+
+    <div class="p-4 rounded-2xl bg-sandBeige border">
+      <div class="text-sm font-extrabold mb-2">نوع الحساب</div>
+      <div class="flex gap-6">
+        {% for r in form.role %}
+          <label class="flex items-center gap-2 cursor-pointer">
+            {{ r.tag }}
+            <span class="font-bold">{{ r.choice_label }}</span>
+          </label>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="space-y-2">
+      <label class="block text-sm font-bold">{{ form.username.label }}</label>
+      {{ form.username }}
+      {% if form.username.errors %}<div class="text-sm text-urgentRed">{{ form.username.errors }}</div>{% endif %}
+    </div>
+
+    <div class="space-y-2">
+      <label class="block text-sm font-bold">{{ form.name.label }}</label>
+      {{ form.name }}
+      {% if form.name.errors %}<div class="text-sm text-urgentRed">{{ form.name.errors }}</div>{% endif %}
+    </div>
+
+    <div class="space-y-2">
+      <label class="block text-sm font-bold">{{ form.phone.label }}</label>
+      {{ form.phone }}
+      {% if form.phone.errors %}<div class="text-sm text-urgentRed">{{ form.phone.errors }}</div>{% endif %}
+    </div>
+
+    <div class="space-y-2">
+      <label class="block text-sm font-bold">{{ form.password.label }}</label>
+      {{ form.password }}
+      {% if form.password.errors %}<div class="text-sm text-urgentRed">{{ form.password.errors }}</div>{% endif %}
+    </div>
+
+    <button class="w-full py-3 rounded-2xl bg-palmGold text-dateBrown font-extrabold hover:opacity-95">
+      تسجيل
+    </button>
+  </form>
+</div>
+
+{% endblock %}

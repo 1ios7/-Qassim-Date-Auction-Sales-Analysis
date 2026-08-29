@@ -1,0 +1,146 @@
+{% load static %}
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{% block title %}مزاد القصيم{% endblock %}</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            dateBrown: "#4B2E1E",
+            palmGold: "#C9A24D",
+            sandBeige: "#F6F1E9",
+            palmGreen: "#2F5D3A",
+            woodBrown: "#A47551",
+            urgentRed: "#8B1E1E",
+          }
+        }
+      }
+    }
+  </script>
+
+  <link rel="stylesheet" href="{% static 'auctions/css/custom.css' %}">
+</head>
+
+<body class="bg-sandBeige text-dateBrown">
+  <header class="bg-dateBrown text-sandBeige">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between gap-3">
+      <a href="{% url 'home' %}" class="flex items-center gap-3">
+        <img src="{% static 'auctions/img/logo.png' %}" alt="مزاد القصيم" class="h-10 w-10 rounded-xl object-contain bg-sandBeige p-1">
+        <div>
+          <div class="font-extrabold text-lg">مزاد القصيم</div>
+          <div class="text-xs opacity-80">Qassim Digital Auction</div>
+        </div>
+      </a>
+
+      <nav class="flex items-center gap-4 text-sm">
+        <a class="hover:text-palmGold" href="{% url 'home' %}">الصفحة الرئيسية</a>
+        <a class="hover:text-palmGold" href="{% url 'auctions_list' %}">المزادات</a>
+        <a class="hover:text-palmGold" href="{% url 'public_shops_list' %}">المتاجر</a>
+        <a class="hover:text-palmGold" href="{% url 'about' %}">من نحن</a>
+
+        {% if user.is_authenticated %}
+          <a class="hover:text-palmGold" href="{% url 'shops_cart' %}">السلة</a>
+
+          {% if user.profile.role == 'seller' %}
+            <a class="hover:text-palmGold" href="{% url 'seller_dashboard' %}">لوحة البائع</a>
+          {% endif %}
+
+          {% if user.profile.role == 'shop' %}
+            <a class="hover:text-palmGold" href="{% url 'shops_dashboard' %}">لوحة المتجر</a>
+          {% endif %}
+
+          {% if user.is_staff or user.is_superuser %}
+            <a class="hover:text-palmGold" href="{% url 'staff_dashboard' %}">لوحة المشرف</a>
+          {% elif user.profile.role == 'staff' %}
+            <a class="hover:text-palmGold" href="{% url 'staff_dashboard' %}">لوحة المشرف</a>
+          {% endif %}
+        {% endif %}
+
+        <div class="relative">
+          <button id="accBtn" class="px-3 py-2 rounded-xl bg-woodBrown hover:bg-palmGold hover:text-dateBrown transition">
+            حسابي
+          </button>
+
+          <div id="accMenu" class="hidden absolute left-0 mt-2 w-44 bg-sandBeige text-dateBrown rounded-xl shadow-lg overflow-hidden z-50">
+            {% if user.is_authenticated %}
+              <a class="block px-4 py-3 hover:bg-[#efe7db]" href="{% url 'account' %}">حسابي</a>
+
+              {% if user.profile.role == 'shop' %}
+                <a class="block px-4 py-3 hover:bg-[#efe7db]" href="{% url 'shops_dashboard' %}">لوحة المتجر</a>
+              {% endif %}
+
+              {% if user.profile.role == 'seller' %}
+                <a class="block px-4 py-3 hover:bg-[#efe7db]" href="{% url 'seller_dashboard' %}">لوحة البائع</a>
+              {% endif %}
+
+              {% if user.is_staff or user.is_superuser or user.profile.role == 'staff' %}
+                <a class="block px-4 py-3 hover:bg-[#efe7db]" href="{% url 'staff_dashboard' %}">لوحة المشرف</a>
+              {% endif %}
+
+              <a class="block px-4 py-3 hover:bg-[#efe7db]" href="{% url 'shops_cart' %}">السلة</a>
+
+              <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button class="w-full text-right px-4 py-3 hover:bg-[#efe7db]">تسجيل خروج</button>
+              </form>
+            {% else %}
+              <a class="block px-4 py-3 hover:bg-[#efe7db]" href="{% url 'login' %}">تسجيل دخول</a>
+              <a class="block px-4 py-3 hover:bg-[#efe7db]" href="{% url 'accounts_register' %}">إنشاء حساب</a>
+              <a class="block px-4 py-3 hover:bg-[#efe7db]" href="{% url 'shops_login' %}">دخول المتاجر</a>
+              <a class="block px-4 py-3 hover:bg-[#efe7db]" href="{% url 'shops_register' %}">تسجيل متجر جديد</a>
+            {% endif %}
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-6">
+    {% if messages %}
+      <div class="space-y-2 mb-4">
+        {% for message in messages %}
+          <div class="p-3 rounded-xl border bg-white">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="bg-dateBrown text-sandBeige mt-10">
+    <div class="max-w-6xl mx-auto px-4 py-6 text-sm opacity-90">
+      © {{ now|date:"Y" }} مزاد القصيم — توثيق لحظي وشفافية بالمزايدة
+    </div>
+  </footer>
+
+  <script>
+    const btn = document.getElementById("accBtn");
+    const menu = document.getElementById("accMenu");
+
+    if (btn && menu) {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        menu.classList.toggle("hidden");
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!btn.contains(e.target) && !menu.contains(e.target)) {
+          menu.classList.add("hidden");
+        }
+      });
+    }
+  </script>
+</body>
+</html>

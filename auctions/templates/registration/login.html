@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}تسجيل الدخول - مزاد القصيم{% endblock %}
+{% block content %}
+
+<div class="max-w-lg mx-auto bg-white rounded-2xl shadow p-6 border">
+  <h1 class="text-2xl font-extrabold mb-4">تسجيل الدخول</h1>
+
+  <form method="post" class="space-y-4">
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+      <div class="p-3 rounded-xl border bg-sandBeige">
+        {{ form.non_field_errors }}
+      </div>
+    {% endif %}
+
+    <div class="space-y-2">
+      <label class="block text-sm font-bold">اسم المستخدم</label>
+      <input
+        type="text"
+        name="username"
+        value="{{ form.username.value|default:'' }}"
+        autocomplete="username"
+        class="w-full p-3 rounded-xl border border-dateBrown/30 bg-white text-dateBrown placeholder-dateBrown/40
+               focus:border-dateBrown focus:ring-2 focus:ring-palmGold outline-none"
+        placeholder="اكتب اسم المستخدم"
+      />
+      {% if form.username.errors %}
+        <div class="text-sm text-urgentRed">{{ form.username.errors }}</div>
+      {% endif %}
+    </div>
+
+    <div class="space-y-2">
+      <label class="block text-sm font-bold">كلمة المرور</label>
+      <input
+        type="password"
+        name="password"
+        autocomplete="current-password"
+        class="w-full p-3 rounded-xl border border-dateBrown/30 bg-white text-dateBrown placeholder-dateBrown/40
+               focus:border-dateBrown focus:ring-2 focus:ring-palmGold outline-none"
+        placeholder="اكتب كلمة المرور"
+      />
+      {% if form.password.errors %}
+        <div class="text-sm text-urgentRed">{{ form.password.errors }}</div>
+      {% endif %}
+    </div>
+
+    <button class="w-full py-3 rounded-2xl bg-dateBrown text-white font-extrabold">دخول</button>
+  </form>
+
+  <div class="mt-4 text-sm">
+    ما عندك حساب؟ <a class="font-bold text-palmGold" href="{% url 'accounts_register' %}">إنشاء حساب</a>
+  </div>
+</div>
+
+{% endblock %}

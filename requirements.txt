@@ -1,0 +1,12 @@
+Django==5.2.11
+Pillow
+pandas
+numpy
+matplotlib
+plotly
+opencv-python
+tensorflow
+keras
+sqlparse
+asgiref
+tzdata

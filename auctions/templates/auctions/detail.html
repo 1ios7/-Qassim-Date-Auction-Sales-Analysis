@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ auction.title }} - مزاد القصيم{% endblock %}
+{% block content %}
+
+<div class="grid lg:grid-cols-2 gap-6">
+  <section class="bg-white rounded-2xl shadow p-5 border">
+    <div class="flex items-start justify-between gap-3">
+      <div>
+        <h1 class="text-2xl font-extrabold">{{ auction.title }}</h1>
+        <p class="text-dateBrown/70 mt-2">{{ auction.description|default:"تفاصيل المنتج والمزاد" }}</p>
+      </div>
+
+      <div class="text-left">
+        <div class="text-xs text-dateBrown/60">حالة المزاد</div>
+        {% if auction.is_open %}
+          <div class="inline-block mt-1 px-3 py-1 rounded-full bg-palmGreen text-white text-xs">مفتوح</div>
+        {% else %}
+          <div class="inline-block mt-1 px-3 py-1 rounded-full bg-urgentRed text-white text-xs">مقفل</div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="mt-4 rounded-2xl border overflow-hidden">
+      {% if images %}
+        <div class="relative">
+          {% for img in images %}
+            <img class="auction-slide {% if forloop.first %}block{% else %}hidden{% endif %} w-full h-72 object-cover"
+                 src="{{ img.image.url }}" alt="صورة">
+          {% endfor %}
+
+          {% if images|length > 1 %}
+            <button type="button" id="prevBtn" class="absolute right-3 top-1/2 -translate-y-1/2 bg-white/90 px-3 py-2 rounded-xl">›</button>
+            <button type="button" id="nextBtn" class="absolute left-3 top-1/2 -translate-y-1/2 bg-white/90 px-3 py-2 rounded-xl">‹</button>
+          {% endif %}
+        </div>
+      {% else %}
+        <div class="h-72 flex items-center justify-center text-dateBrown/60">لا توجد صور</div>
+      {% endif %}
+    </div>
+
+    <div class="mt-4 grid grid-cols-2 gap-3">
+      <div class="p-4 rounded-2xl bg-sandBeige border">
+        <div class="text-xs text-dateBrown/60">السعر الحالي</div>
+        <div id="currentPrice" class="text-2xl font-extrabold text-palmGold">{{ auction.current_price }} ر.س</div>
+      </div>
+      <div class="p-4 rounded-2xl bg-sandBeige border">
+        <div class="text-xs text-dateBrown/60">الوقت المتبقي</div>
+        <div id="countdown" class="text-2xl font-extrabold text-urgentRed">--:--</div>
+      </div>
+    </div>
+
+    <div class="mt-4 p-4 rounded-2xl bg-sandBeige border">
+      <div class="text-xs text-dateBrown/60 mb-2">معلومات التاجر</div>
+      <div class="space-y-1 text-dateBrown/80">
+        <div><b>الاسم:</b> {{ auction.seller.first_name|default:auction.seller.username }}</div>
+        {% if auction.seller.profile %}
+          <div><b>رقم الهاتف:</b> {{ auction.seller.profile.phone|default:"-" }}</div>
+        {% else %}
+          <div><b>رقم الهاتف:</b> -</div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white rounded-2xl shadow p-5 border">
+    <h2 class="text-xl font-extrabold mb-3">المزايدة</h2>
+
+    {% if user.is_authenticated %}
+      <form method="post" class="space-y-3">
+        {% csrf_token %}
+        {{ bid_form.amount.label_tag }}
+        {{ bid_form.amount }}
+        <button class="w-full py-3 rounded-2xl bg-palmGold text-dateBrown font-extrabold hover:opacity-95">
+          مزايدة الآن
+        </button>
+        <div class="text-xs text-dateBrown/70">
+          أقل زيادة: {{ auction.min_increment }} ر.س
+        </div>
+      </form>
+    {% else %}
+      <div class="p-4 rounded-2xl bg-sandBeige border">
+        لازم تسجل دخول عشان تزايد.
+        <div class="mt-3 flex gap-2">
+          <a class="px-4 py-2 rounded-2xl bg-dateBrown text-white" href="{% url 'login' %}">تسجيل دخول</a>
+          <a class="px-4 py-2 rounded-2xl bg-woodBrown text-white" href="{% url 'accounts_register' %}">إنشاء حساب</a>
+        </div>
+      </div>
+    {% endif %}
+
+    <hr class="my-5">
+
+    <h3 class="font-extrabold mb-3">آخر المزايدات</h3>
+    <div id="bidsBox" class="space-y-2">
+      {% for b in bids %}
+        <div class="p-3 rounded-2xl border bg-sandBeige flex items-center justify-between">
+          <div class="text-sm font-bold">{{ b.bidder.username }}</div>
+          <div class="font-extrabold text-palmGold">{{ b.amount }} ر.س</div>
+        </div>
+      {% empty %}
+        <div class="p-3 rounded-2xl border bg-sandBeige">لا توجد مزايدات.</div>
+      {% endfor %}
+    </div>
+  </section>
+</div>
+
+<script src="{% static 'auctions/js/bid.js' %}"></script>
+<script>
+  window.AUCTION_STATUS_URL = "{% url 'auction_status' auction.pk %}";
+
+  const slides = Array.from(document.querySelectorAll(".auction-slide"));
+  let idx = 0;
+
+  function show(i){
+    slides.forEach((s, k) => s.classList.toggle("hidden", k !== i));
+    slides.forEach((s, k) => s.classList.toggle("block", k === i));
+  }
+
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+
+  if (prevBtn) prevBtn.addEventListener("click", () => {
+    idx = (idx - 1 + slides.length) % slides.length;
+    show(idx);
+  });
+
+  if (nextBtn) nextBtn.addEventListener("click", () => {
+    idx = (idx + 1) % slides.length;
+    show(idx);
+  });
+</script>
+
+{% endblock %}

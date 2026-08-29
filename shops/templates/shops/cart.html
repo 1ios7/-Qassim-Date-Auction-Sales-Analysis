@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %}السلة - مزاد القصيم{% endblock %}
+{% block content %}
+
+<div class="grid gap-6">
+
+  <section class="bg-white rounded-3xl shadow p-6 border">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      <div>
+        <h1 class="text-3xl font-extrabold">سلة المشتريات</h1>
+        <div class="text-sm text-dateBrown/70 mt-1">راجع المنتجات التي أضفتها قبل إتمام الطلب</div>
+      </div>
+
+      <a href="{% url 'public_shops_list' %}"
+         class="inline-block px-5 py-3 rounded-2xl bg-dateBrown text-white font-extrabold hover:opacity-95 text-center">
+        العودة للمتاجر
+      </a>
+    </div>
+  </section>
+
+  <section class="bg-white rounded-3xl shadow p-6 border">
+    {% if cart_items %}
+      <div class="space-y-4">
+        {% for item in cart_items %}
+          <div class="rounded-2xl border bg-sandBeige/50 p-4">
+            <div class="grid lg:grid-cols-[120px_1fr_auto] gap-4 items-center">
+              <div>
+                {% if item.product.image %}
+                  <img src="{{ item.product.image.url }}" alt="{{ item.product.title }}" class="w-full h-28 object-cover rounded-2xl border">
+                {% else %}
+                  <div class="w-full h-28 bg-white rounded-2xl border flex items-center justify-center text-dateBrown/60">
+                    بدون صورة
+                  </div>
+                {% endif %}
+              </div>
+
+              <div>
+                <div class="font-extrabold text-xl">{{ item.product.title }}</div>
+                <div class="text-sm text-dateBrown/70 mt-1">المتجر: {{ item.product.shop.store_name }}</div>
+                <div class="text-sm text-dateBrown/70 mt-1">السعر: {{ item.product.price }} ر.س</div>
+                <div class="text-sm text-dateBrown/70 mt-1">الإجمالي: {{ item.total_price }} ر.س</div>
+              </div>
+
+              <div class="w-full lg:w-60 space-y-2">
+                <form method="post" action="{% url 'shops_cart_update' item.pk %}" class="space-y-2">
+                  {% csrf_token %}
+                  <input type="number" name="quantity" min="1" value="{{ item.quantity }}"
+                         class="w-full p-3 rounded-xl border border-dateBrown/30 bg-white text-dateBrown focus:border-dateBrown focus:ring-2 focus:ring-palmGold outline-none">
+                  <button type="submit"
+                          class="w-full py-2 rounded-2xl bg-woodBrown text-white font-bold hover:opacity-95">
+                    تحديث الكمية
+                  </button>
+                </form>
+
+                <form method="post" action="{% url 'shops_cart_remove' item.pk %}">
+                  {% csrf_token %}
+                  <button type="submit"
+                          class="w-full py-2 rounded-2xl bg-urgentRed text-white font-bold hover:opacity-95">
+                    حذف من السلة
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="mt-6 rounded-2xl border bg-white p-5 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div>
+          <div class="text-sm text-dateBrown/60">إجمالي الطلب</div>
+          <div class="text-3xl font-extrabold text-palmGold mt-1">{{ grand_total }} ر.س</div>
+        </div>
+
+        <form method="post" action="{% url 'shops_checkout' %}">
+          {% csrf_token %}
+          <button type="submit"
+                  class="px-8 py-3 rounded-2xl bg-dateBrown text-white font-extrabold hover:opacity-95">
+            إتمام الطلب
+          </button>
+        </form>
+      </div>
+    {% else %}
+      <div class="p-8 rounded-2xl bg-sandBeige border text-center">
+        <div class="text-2xl font-extrabold mb-2">السلة فارغة</div>
+        <p class="text-dateBrown/70 mb-5">أضف بعض المنتجات من المتاجر أولاً.</p>
+        <a href="{% url 'public_shops_list' %}"
+           class="inline-block px-6 py-3 rounded-2xl bg-palmGold text-dateBrown font-extrabold hover:opacity-95">
+          الذهاب إلى المتاجر
+        </a>
+      </div>
+    {% endif %}
+  </section>
+
+</div>
+{% endblock %}

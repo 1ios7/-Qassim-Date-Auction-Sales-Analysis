@@ -1,0 +1,147 @@
+<!-- =========================================
+  اسم الصفحة: landing.html (صفحة الترحيب/الدخول)
+  وظيفتها:
+  - أول صفحة تظهر للمستخدم عند فتح الموقع
+  - تعرض تعريف مميز عن المنصة
+  - إذا كان المستخدم غير مسجل دخول:
+      تظهر أزرار (الدخول كضيف) و (تسجيل دخول / إنشاء حساب جديد)
+  - إذا كان المستخدم مسجل دخول:
+      يظهر زر واحد فقط (الانتقال للموقع)
+  - تعرض كرت إضافي خاص بالمتاجر أسفل الكرت الرئيسي
+========================================= -->
+
+{% extends "base.html" %}
+{% block title %}مرحباً - مزاد القصيم{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto grid gap-6">
+
+  <!-- الكرت الرئيسي -->
+  <section class="relative overflow-hidden bg-white rounded-3xl shadow-xl border">
+    <!-- خلفيات تجميلية -->
+    <div class="absolute -top-16 -right-16 w-56 h-56 rounded-full bg-palmGold/20"></div>
+    <div class="absolute -bottom-20 -left-20 w-72 h-72 rounded-full bg-dateBrown/10"></div>
+
+    <div class="relative z-10 p-6 md:p-10">
+      <div class="grid lg:grid-cols-2 gap-8 items-center">
+
+        <!-- النص -->
+        <div>
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sandBeige border text-sm font-bold mb-4">
+            <span class="w-2.5 h-2.5 rounded-full bg-palmGreen"></span>
+            مزايدة رقمية مباشرة على التمور
+          </div>
+
+          <h1 class="text-3xl md:text-5xl font-extrabold leading-tight mb-4">
+            مرحباً بك في <span class="text-palmGold">منصة مزاد القصيم</span>
+          </h1>
+
+          <p class="text-dateBrown/80 leading-8 text-base md:text-lg mb-6">
+            حوّلنا مزادات التمور الكبرى إلى تجربة رقمية تفاعلية تجمع بين
+            المزايدة المباشرة، وسهولة الوصول، والتوثيق اللحظي للأسعار،
+            في واجهة حديثة مستوحاة من هوية القصيم وتراثها.
+          </p>
+
+          <div class="grid sm:grid-cols-3 gap-3 mb-6">
+            <div class="p-4 rounded-2xl bg-sandBeige border">
+              <div class="text-xs text-dateBrown/60 mb-1">ميزة</div>
+              <div class="font-extrabold">مزايدة مباشرة</div>
+            </div>
+            <div class="p-4 rounded-2xl bg-sandBeige border">
+              <div class="text-xs text-dateBrown/60 mb-1">ميزة</div>
+              <div class="font-extrabold">توثيق لحظي</div>
+            </div>
+            <div class="p-4 rounded-2xl bg-sandBeige border">
+              <div class="text-xs text-dateBrown/60 mb-1">ميزة</div>
+              <div class="font-extrabold">وصول من أي مكان</div>
+            </div>
+          </div>
+
+          {% if user.is_authenticated %}
+            <div class="flex justify-start">
+              <a href="{% url 'home' %}"
+                 class="px-6 py-4 rounded-2xl bg-palmGold text-dateBrown font-extrabold text-base hover:opacity-95 transition shadow">
+                الانتقال للموقع
+              </a>
+            </div>
+          {% else %}
+            <div class="flex flex-col sm:flex-row gap-3">
+              <a href="{% url 'home' %}"
+                 class="px-6 py-4 rounded-2xl bg-palmGold text-dateBrown font-extrabold text-base hover:opacity-95 transition shadow text-center">
+                الدخول كـ ضيف
+              </a>
+
+              <a href="{% url 'login' %}"
+                 class="px-6 py-4 rounded-2xl bg-dateBrown text-sandBeige font-extrabold text-base hover:opacity-95 transition shadow text-center">
+                تسجيل دخول / إنشاء حساب جديد
+              </a>
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- الجزء البصري -->
+        <div class="relative">
+          <div class="bg-gradient-to-br from-dateBrown to-woodBrown rounded-3xl p-6 md:p-8 text-sandBeige shadow-lg">
+            <div class="mb-5">
+              <div class="text-sm opacity-80 mb-2">Qassim Digital Auction</div>
+              <div class="text-2xl md:text-3xl font-extrabold mb-3">مزاد القصيم</div>
+              <p class="leading-7 text-sandBeige/90">
+                منصة تجمع بين الأصالة والتقنية، وتمنح المستخدم تجربة مزايدة
+                احترافية واضحة وسريعة، مع عرض منظم للمزادات ومتابعة مباشرة للأسعار.
+              </p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div class="bg-white/10 rounded-2xl p-4 border border-white/10">
+                <div class="text-xs opacity-75 mb-1">الحالة</div>
+                <div class="font-extrabold">مزادات حية</div>
+              </div>
+              <div class="bg-white/10 rounded-2xl p-4 border border-white/10">
+                <div class="text-xs opacity-75 mb-1">الهدف</div>
+                <div class="font-extrabold">شفافية كاملة</div>
+              </div>
+              <div class="bg-white/10 rounded-2xl p-4 border border-white/10 col-span-2">
+                <div class="text-xs opacity-75 mb-1">الفائدة</div>
+                <div class="font-extrabold">قاعدة بيانات تاريخية للأسعار والصفقات</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- كرت المتاجر -->
+  <section class="bg-white rounded-3xl shadow border p-6 md:p-7">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+      <div>
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-sandBeige border text-xs font-bold mb-3">
+          خدمة جديدة للمتاجر
+        </div>
+
+        <h2 class="text-2xl font-extrabold mb-2">عندك متجر تمور؟ اعرض منتجاتك داخل المنصة</h2>
+
+        <p class="text-dateBrown/80 leading-8 max-w-3xl">
+          نوفر للمتاجر مساحة خاصة داخل الموقع لعرض المنتجات بأسعار ثابتة،
+          مع لوحة تحكم وتحليلات وظهور احترافي داخل المنصة.
+          الخدمة برسوم اشتراك، لكن <span class="font-extrabold text-palmGold">أول 3 شهور مجاناً</span>.
+        </p>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3 sm:items-center">
+        <div class="px-5 py-4 rounded-2xl bg-sandBeige border text-center min-w-[150px]">
+          <div class="text-xs text-dateBrown/60 mb-1">العرض الحالي</div>
+          <div class="text-xl font-extrabold text-dateBrown">3 أشهر مجانية</div>
+        </div>
+
+        <a href="{% url 'login' %}"
+           class="px-6 py-4 rounded-2xl bg-dateBrown text-sandBeige font-extrabold hover:opacity-95 transition shadow text-center">
+          سجل الآن
+        </a>
+      </div>
+    </div>
+  </section>
+
+</div>
+{% endblock %}

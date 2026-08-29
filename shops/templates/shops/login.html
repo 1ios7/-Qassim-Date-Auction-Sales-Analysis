@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% block title %}تسجيل دخول المتاجر - مزاد القصيم{% endblock %}
+{% block content %}
+
+<div class="max-w-7xl mx-auto grid gap-6">
+
+  <!-- الهيدر -->
+  <section class="bg-white rounded-3xl shadow p-6 md:p-8 border overflow-hidden relative">
+    <div class="absolute -top-16 -left-16 w-44 h-44 rounded-full bg-palmGold/15"></div>
+    <div class="absolute -bottom-20 -right-20 w-64 h-64 rounded-full bg-dateBrown/10"></div>
+
+    <div class="relative z-10 grid lg:grid-cols-[1.2fr_.8fr] gap-6 items-center">
+      <div>
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-sandBeige border text-xs font-bold mb-3">
+          بوابة المتاجر
+        </div>
+
+        <h1 class="text-3xl md:text-4xl font-extrabold mb-3">تسجيل دخول المتجر</h1>
+
+        <p class="text-dateBrown/80 leading-8 max-w-4xl">
+          ادخل إلى لوحة متجرك لمتابعة المنتجات، وتحديث الأسعار، وإدارة بيانات المتجر،
+          وتحويل المنتجات إلى مزادات داخل المنصة بكل سهولة.
+        </p>
+      </div>
+
+      <div class="bg-gradient-to-br from-dateBrown to-woodBrown rounded-3xl p-6 text-sandBeige shadow-lg">
+        <div class="text-sm opacity-80 mb-2">بعد تسجيل الدخول</div>
+        <div class="text-2xl font-extrabold mb-4">كل شيء في مكان واحد</div>
+
+        <div class="space-y-3">
+          <div class="p-3 rounded-2xl bg-white/10 border border-white/10">
+            <div class="font-extrabold">لوحة تحكم المتجر</div>
+            <div class="text-sm opacity-85 mt-1">تابع المنتجات والبيانات من واجهة واضحة ومنظمة.</div>
+          </div>
+
+          <div class="p-3 rounded-2xl bg-white/10 border border-white/10">
+            <div class="font-extrabold">إدارة المنتجات</div>
+            <div class="text-sm opacity-85 mt-1">أضف منتجاتك وعدّل الأسعار والصور بسهولة.</div>
+          </div>
+
+          <div class="p-3 rounded-2xl bg-white/10 border border-white/10">
+            <div class="font-extrabold">التحويل إلى مزاد</div>
+            <div class="text-sm opacity-85 mt-1">حوّل أي منتج إلى مزاد عند الحاجة.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- المحتوى -->
+  <section class="grid xl:grid-cols-[1.05fr_.95fr] gap-6">
+
+    <!-- نموذج الدخول -->
+    <div class="bg-white rounded-3xl shadow p-6 border">
+      <div class="mb-6">
+        <h2 class="text-2xl font-extrabold">دخول المتجر</h2>
+        <div class="text-sm text-dateBrown/70 mt-1">أدخل بيانات حسابك للوصول إلى لوحة المتجر</div>
+      </div>
+
+      <form method="post" class="space-y-6">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+          <div class="p-4 rounded-2xl border bg-sandBeige text-urgentRed">
+            {{ form.non_field_errors }}
+          </div>
+        {% endif %}
+
+        <div class="rounded-3xl border bg-sandBeige/40 p-5 space-y-5">
+          <div class="font-extrabold text-lg">بيانات تسجيل الدخول</div>
+
+          <div class="space-y-2">
+            <label class="block text-sm font-bold">اسم المستخدم</label>
+            {{ form.username }}
+            {% if form.username.errors %}
+              <div class="text-sm text-urgentRed">{{ form.username.errors }}</div>
+            {% endif %}
+          </div>
+
+          <div class="space-y-2">
+            <label class="block text-sm font-bold">كلمة المرور</label>
+            {{ form.password }}
+            {% if form.password.errors %}
+              <div class="text-sm text-urgentRed">{{ form.password.errors }}</div>
+            {% endif %}
+          </div>
+        </div>
+
+        <button class="w-full py-4 rounded-2xl bg-dateBrown text-white font-extrabold text-base hover:opacity-95 shadow">
+          دخول
+        </button>
+      </form>
+
+      <div class="mt-5 text-sm text-dateBrown/80">
+        ما عندك متجر بعد؟
+        <a class="font-bold text-palmGold" href="{% url 'shops_register' %}">أنشئ حساب متجر جديد</a>
+      </div>
+    </div>
+
+    <!-- البطاقة الجانبية -->
+    <aside class="space-y-6">
+      <div class="bg-white rounded-3xl shadow p-6 border">
+        <div class="font-extrabold text-xl mb-3">ليش تدخل من بوابة المتاجر؟</div>
+        <div class="space-y-3 text-sm text-dateBrown/80 leading-7">
+          <div class="p-4 rounded-2xl bg-sandBeige border">
+            وصول سريع إلى لوحة المتجر الخاصة بك.
+          </div>
+          <div class="p-4 rounded-2xl bg-sandBeige border">
+            إدارة المنتجات والأسعار والمخزون بشكل أسهل.
+          </div>
+          <div class="p-4 rounded-2xl bg-sandBeige border">
+            تجهيز المنتجات وتحويلها إلى مزادات عند الحاجة.
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3xl shadow p-6 border">
+        <div class="text-xs text-dateBrown/60 mb-1">للمتاجر الجديدة</div>
+        <div class="text-2xl font-extrabold mb-2">3 أشهر مجانية</div>
+        <p class="text-sm text-dateBrown/80 leading-7">
+          إذا ما عندك حساب متجر حتى الآن، تقدر تبدأ من صفحة التسجيل وتفعّل متجرك داخل المنصة.
+        </p>
+        <a href="{% url 'shops_register' %}"
+           class="inline-block mt-4 px-5 py-3 rounded-2xl bg-palmGold text-dateBrown font-extrabold hover:opacity-95">
+          إنشاء حساب متجر
+        </a>
+      </div>
+
+      <div class="bg-white rounded-3xl shadow p-6 border">
+        <div class="font-extrabold text-lg mb-2">ملاحظات مهمة</div>
+        <ul class="space-y-2 text-sm text-dateBrown/80 leading-7">
+          <li>تأكد من كتابة اسم المستخدم الصحيح.</li>
+          <li>استخدم كلمة المرور الخاصة بحساب المتجر فقط.</li>
+          <li>إذا كان حسابك ليس من نوع متجر فلن يتم الدخول إلى لوحة المتاجر.</li>
+        </ul>
+      </div>
+    </aside>
+
+  </section>
+</div>
+{% endblock %}

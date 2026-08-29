@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+{% block title %}إنشاء حساب متجر - مزاد القصيم{% endblock %}
+{% block content %}
+
+<div class="max-w-7xl mx-auto grid gap-6">
+
+  <!-- الهيدر -->
+  <section class="bg-white rounded-3xl shadow p-6 md:p-8 border overflow-hidden relative">
+    <div class="absolute -top-16 -left-16 w-44 h-44 rounded-full bg-palmGold/15"></div>
+    <div class="absolute -bottom-20 -right-20 w-64 h-64 rounded-full bg-dateBrown/10"></div>
+
+    <div class="relative z-10 grid lg:grid-cols-[1.2fr_.8fr] gap-6 items-center">
+      <div>
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-sandBeige border text-xs font-bold mb-3">
+          بوابة تسجيل المتاجر
+        </div>
+
+        <h1 class="text-3xl md:text-4xl font-extrabold mb-3">أنشئ حساب متجرك داخل مزاد القصيم</h1>
+
+        <p class="text-dateBrown/80 leading-8 max-w-4xl">
+          افتح متجرك داخل المنصة وابدأ بعرض منتجاتك بشكل احترافي،
+          مع لوحة تحكم خاصة، وإدارة للمنتجات، وواجهة منظمة تساعدك على الوصول للعملاء بسهولة.
+        </p>
+      </div>
+
+      <div class="bg-gradient-to-br from-dateBrown to-woodBrown rounded-3xl p-6 text-sandBeige shadow-lg">
+        <div class="text-sm opacity-80 mb-2">مزايا الاشتراك</div>
+        <div class="text-2xl font-extrabold mb-4">ابدأ متجرك بخطوات بسيطة</div>
+
+        <div class="space-y-3">
+          <div class="p-3 rounded-2xl bg-white/10 border border-white/10">
+            <div class="font-extrabold">واجهة متجر خاصة</div>
+            <div class="text-sm opacity-85 mt-1">اعرض منتجاتك داخل صفحة متجر مستقلة.</div>
+          </div>
+
+          <div class="p-3 rounded-2xl bg-white/10 border border-white/10">
+            <div class="font-extrabold">إدارة المنتجات</div>
+            <div class="text-sm opacity-85 mt-1">أضف منتجاتك وعدّلها واحذفها متى ما احتجت.</div>
+          </div>
+
+          <div class="p-3 rounded-2xl bg-white/10 border border-white/10">
+            <div class="font-extrabold">تحويل المنتج إلى مزاد</div>
+            <div class="text-sm opacity-85 mt-1">حوّل أي منتج إلى مزاد مباشر داخل المنصة.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- النموذج -->
+  <section class="grid xl:grid-cols-[1.25fr_.75fr] gap-6">
+
+    <!-- الفورم -->
+    <div class="bg-white rounded-3xl shadow p-6 border">
+      <div class="mb-6">
+        <h2 class="text-2xl font-extrabold">بيانات المتجر</h2>
+        <div class="text-sm text-dateBrown/70 mt-1">أدخل المعلومات الأساسية لإنشاء حساب المتجر</div>
+      </div>
+
+      <form method="post" enctype="multipart/form-data" class="space-y-6">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+          <div class="p-4 rounded-2xl border bg-sandBeige text-urgentRed">
+            {{ form.non_field_errors }}
+          </div>
+        {% endif %}
+
+        <!-- بيانات الدخول -->
+        <div class="rounded-3xl border bg-sandBeige/40 p-5">
+          <div class="font-extrabold text-lg mb-4">بيانات الدخول</div>
+
+          <div class="grid md:grid-cols-2 gap-5">
+            <div class="space-y-2">
+              <label class="block text-sm font-bold">{{ form.username.label }}</label>
+              {{ form.username }}
+              {% if form.username.errors %}
+                <div class="text-sm text-urgentRed">{{ form.username.errors }}</div>
+              {% endif %}
+            </div>
+
+            <div class="space-y-2">
+              <label class="block text-sm font-bold">{{ form.password.label }}</label>
+              {{ form.password }}
+              {% if form.password.errors %}
+                <div class="text-sm text-urgentRed">{{ form.password.errors }}</div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <!-- بيانات المتجر -->
+        <div class="rounded-3xl border bg-sandBeige/40 p-5">
+          <div class="font-extrabold text-lg mb-4">البيانات الأساسية للمتجر</div>
+
+          <div class="grid md:grid-cols-2 gap-5">
+            <div class="space-y-2">
+              <label class="block text-sm font-bold">{{ form.store_name.label }}</label>
+              {{ form.store_name }}
+              {% if form.store_name.errors %}
+                <div class="text-sm text-urgentRed">{{ form.store_name.errors }}</div>
+              {% endif %}
+            </div>
+
+            <div class="space-y-2">
+              <label class="block text-sm font-bold">{{ form.owner_name.label }}</label>
+              {{ form.owner_name }}
+              {% if form.owner_name.errors %}
+                <div class="text-sm text-urgentRed">{{ form.owner_name.errors }}</div>
+              {% endif %}
+            </div>
+
+            <div class="space-y-2">
+              <label class="block text-sm font-bold">{{ form.email.label }}</label>
+              {{ form.email }}
+              {% if form.email.errors %}
+                <div class="text-sm text-urgentRed">{{ form.email.errors }}</div>
+              {% endif %}
+            </div>
+
+            <div class="space-y-2">
+              <label class="block text-sm font-bold">{{ form.phone.label }}</label>
+              {{ form.phone }}
+              {% if form.phone.errors %}
+                <div class="text-sm text-urgentRed">{{ form.phone.errors }}</div>
+              {% endif %}
+            </div>
+
+            <div class="space-y-2">
+              <label class="block text-sm font-bold">{{ form.city.label }}</label>
+              {{ form.city }}
+              {% if form.city.errors %}
+                <div class="text-sm text-urgentRed">{{ form.city.errors }}</div>
+              {% endif %}
+            </div>
+
+            <div class="space-y-2">
+              <label class="block text-sm font-bold">{{ form.logo.label }}</label>
+              <div class="p-4 rounded-2xl border bg-white">
+                {{ form.logo }}
+              </div>
+              {% if form.logo.errors %}
+                <div class="text-sm text-urgentRed">{{ form.logo.errors }}</div>
+              {% endif %}
+              <div class="text-xs text-dateBrown/60">يفضّل رفع شعار واضح بخلفية نظيفة.</div>
+            </div>
+
+            <div class="md:col-span-2 space-y-2">
+              <label class="block text-sm font-bold">{{ form.description.label }}</label>
+              {{ form.description }}
+              {% if form.description.errors %}
+                <div class="text-sm text-urgentRed">{{ form.description.errors }}</div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <button class="w-full py-4 rounded-2xl bg-palmGold text-dateBrown font-extrabold text-base hover:opacity-95 shadow">
+          إنشاء حساب المتجر
+        </button>
+      </form>
+
+      <div class="mt-5 text-sm text-dateBrown/80">
+        عندك حساب متجر بالفعل؟
+        <a class="font-bold text-palmGold" href="{% url 'shops_login' %}">سجّل الدخول</a>
+      </div>
+    </div>
+
+    <!-- البطاقة الجانبية -->
+    <aside class="space-y-6">
+      <div class="bg-white rounded-3xl shadow p-6 border">
+        <div class="font-extrabold text-xl mb-3">لماذا تسجل متجرك هنا؟</div>
+        <div class="space-y-3 text-sm text-dateBrown/80 leading-7">
+          <div class="p-4 rounded-2xl bg-sandBeige border">
+            ظهور منتجاتك داخل المنصة بشكل منظم وواضح للزوار.
+          </div>
+          <div class="p-4 rounded-2xl bg-sandBeige border">
+            إدارة المنتجات والأسعار والصور من لوحة تحكم واحدة.
+          </div>
+          <div class="p-4 rounded-2xl bg-sandBeige border">
+            إمكانية تحويل أي منتج إلى مزاد مباشر متى ما احتجت.
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3xl shadow p-6 border">
+        <div class="text-xs text-dateBrown/60 mb-1">عرض الإطلاق</div>
+        <div class="text-2xl font-extrabold mb-2">3 أشهر مجانية</div>
+        <p class="text-sm text-dateBrown/80 leading-7">
+          جرّب خدمة المتاجر داخل المنصة مجانًا في البداية، وابدأ ببناء حضور متجرك وعرض منتجاتك بسهولة.
+        </p>
+      </div>
+
+      <div class="bg-white rounded-3xl shadow p-6 border">
+        <div class="font-extrabold text-lg mb-2">ملاحظات مهمة</div>
+        <ul class="space-y-2 text-sm text-dateBrown/80 leading-7">
+          <li>استخدم اسم مستخدم واضح وسهل التذكر.</li>
+          <li>يفضّل أن يكون وصف المتجر مختصرًا وواضحًا.</li>
+          <li>أضف شعار المتجر لزيادة الثقة والتميّز البصري.</li>
+        </ul>
+      </div>
+    </aside>
+
+  </section>
+</div>
+{% endblock %}

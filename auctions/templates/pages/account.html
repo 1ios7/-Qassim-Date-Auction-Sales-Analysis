@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% block title %}حسابي - مزاد القصيم{% endblock %}
+{% block content %}
+
+<div class="grid lg:grid-cols-2 gap-6">
+  <section class="bg-white rounded-2xl shadow p-6 border">
+    <div class="flex items-center justify-between mb-4">
+      <h1 class="text-2xl font-extrabold">حسابي</h1>
+      <button id="editBtn" type="button"
+              class="px-4 py-2 rounded-2xl bg-woodBrown text-white hover:bg-palmGold hover:text-dateBrown font-bold transition">
+        تعديل
+      </button>
+    </div>
+
+    <div id="viewBox" class="space-y-2 text-dateBrown/80">
+      <div><b>المستخدم:</b> {{ user.username }}</div>
+      <div><b>الاسم:</b> {{ user.first_name }} {{ user.last_name }}</div>
+      <div><b>الإيميل:</b> {{ user.email }}</div>
+      {% if user.profile %}
+        <div><b>الجوال:</b> {{ user.profile.phone }}</div>
+      {% endif %}
+    </div>
+
+    <form id="editBox" method="post" class="hidden space-y-4 mt-4">
+      {% csrf_token %}
+
+      <div class="space-y-2">
+        <label class="block text-sm font-bold">اسم المستخدم</label>
+        <input
+          type="text"
+          name="username"
+          value="{{ user.username }}"
+          class="w-full p-3 rounded-xl border border-dateBrown/30 bg-white text-dateBrown placeholder-dateBrown/40
+                 focus:border-dateBrown focus:ring-2 focus:ring-palmGold outline-none"
+          placeholder="اسم المستخدم"
+        />
+      </div>
+
+      <div class="space-y-2">
+        <label class="block text-sm font-bold">الاسم</label>
+        <input
+          type="text"
+          name="name"
+          value="{{ user.first_name }}{% if user.last_name %} {{ user.last_name }}{% endif %}"
+          class="w-full p-3 rounded-xl border border-dateBrown/30 bg-white text-dateBrown placeholder-dateBrown/40
+                 focus:border-dateBrown focus:ring-2 focus:ring-palmGold outline-none"
+          placeholder="الاسم"
+        />
+      </div>
+
+      <div class="space-y-2">
+        <label class="block text-sm font-bold">الإيميل</label>
+        <input
+          type="email"
+          name="email"
+          value="{{ user.email }}"
+          class="w-full p-3 rounded-xl border border-dateBrown/30 bg-white text-dateBrown placeholder-dateBrown/40
+                 focus:border-dateBrown focus:ring-2 focus:ring-palmGold outline-none"
+          placeholder="example@mail.com"
+        />
+      </div>
+
+      <div class="space-y-2">
+        <label class="block text-sm font-bold">رقم الهاتف</label>
+        <input
+          type="text"
+          name="phone"
+          value="{% if user.profile %}{{ user.profile.phone }}{% endif %}"
+          class="w-full p-3 rounded-xl border border-dateBrown/30 bg-white text-dateBrown placeholder-dateBrown/40
+                 focus:border-dateBrown focus:ring-2 focus:ring-palmGold outline-none"
+          placeholder="05xxxxxxxx (اختياري)"
+        />
+        <div class="text-xs text-dateBrown/60">اختياري</div>
+      </div>
+
+      <div class="space-y-2">
+        <label class="block text-sm font-bold">كلمة المرور (اختياري)</label>
+        <input
+          type="password"
+          name="password"
+          class="w-full p-3 rounded-xl border border-dateBrown/30 bg-white text-dateBrown placeholder-dateBrown/40
+                 focus:border-dateBrown focus:ring-2 focus:ring-palmGold outline-none"
+          placeholder="اكتب كلمة مرور جديدة (أو اتركها فاضية)"
+        />
+      </div>
+
+      <div class="flex gap-3">
+        <button type="submit"
+                class="flex-1 py-3 rounded-2xl bg-palmGold text-dateBrown font-extrabold hover:opacity-95">
+          حفظ
+        </button>
+        <button id="cancelBtn" type="button"
+                class="flex-1 py-3 rounded-2xl bg-dateBrown text-white font-extrabold hover:opacity-95">
+          إلغاء
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <section class="bg-white rounded-2xl shadow p-6 border">
+    <h2 class="text-xl font-extrabold mb-3">آخر مزايداتي</h2>
+    <div class="space-y-2">
+      {% for b in my_bids %}
+        <div class="p-3 rounded-2xl border bg-sandBeige">
+          <div class="text-sm font-bold">{{ b.auction.title }}</div>
+          <div class="text-sm">مزايدتي: <b class="text-palmGold">{{ b.amount }} ر.س</b></div>
+        </div>
+      {% empty %}
+        <div class="p-3 rounded-2xl border bg-sandBeige">ما عندك مزايدات.</div>
+      {% endfor %}
+    </div>
+  </section>
+</div>
+
+<script>
+  const editBtn = document.getElementById("editBtn");
+  const cancelBtn = document.getElementById("cancelBtn");
+  const viewBox = document.getElementById("viewBox");
+  const editBox = document.getElementById("editBox");
+
+  const initial = {};
+  if (editBox) {
+    ["username", "name", "email", "phone", "password"].forEach((n) => {
+      const el = editBox.querySelector(`[name="${n}"]`);
+      if (el) initial[n] = el.value;
+    });
+  }
+
+  function openEdit() {
+    viewBox.classList.add("hidden");
+    editBox.classList.remove("hidden");
+    editBtn.classList.add("hidden");
+  }
+
+  function closeEdit(reset = false) {
+    if (reset && editBox) {
+      Object.keys(initial).forEach((n) => {
+        const el = editBox.querySelector(`[name="${n}"]`);
+        if (el) el.value = initial[n];
+      });
+    }
+    editBox.classList.add("hidden");
+    viewBox.classList.remove("hidden");
+    editBtn.classList.remove("hidden");
+  }
+
+  if (editBtn) editBtn.addEventListener("click", openEdit);
+  if (cancelBtn) cancelBtn.addEventListener("click", () => closeEdit(true));
+</script>
+
+{% endblock %}

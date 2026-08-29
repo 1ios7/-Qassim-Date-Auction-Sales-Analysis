@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}المتاجر - مزاد القصيم{% endblock %}
+{% block content %}
+
+<div class="grid gap-6">
+
+  <section class="bg-white rounded-3xl shadow p-6 border overflow-hidden relative">
+    <div class="absolute -top-10 -left-10 w-36 h-36 rounded-full bg-palmGold/10"></div>
+    <div class="relative z-10">
+      <div class="text-sm text-dateBrown/60 mb-2">واجهة المتاجر</div>
+      <h1 class="text-3xl font-extrabold mb-3">كل المتاجر داخل مزاد القصيم</h1>
+      <p class="text-dateBrown/80 leading-8 max-w-4xl">
+        استعرض المتاجر المشتركة في المنصة، وادخل لأي متجر تشوف منتجاته كاملة،
+        وتصفح التفاصيل والأسعار، وأضف أي منتج يعجبك إلى السلة.
+      </p>
+    </div>
+  </section>
+
+  <section class="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
+    {% for shop in shops %}
+      <div class="bg-white rounded-3xl shadow border overflow-hidden">
+        {% if shop.banner %}
+          <img src="{{ shop.banner.url }}" alt="{{ shop.store_name }}" class="w-full h-40 object-cover border-b">
+        {% else %}
+          <div class="w-full h-40 bg-sandBeige border-b flex items-center justify-center text-dateBrown/60">
+            بدون بنر
+          </div>
+        {% endif %}
+
+        <div class="p-5">
+          <div class="flex items-center gap-3 mb-4">
+            {% if shop.logo %}
+              <img src="{{ shop.logo.url }}" alt="{{ shop.store_name }}" class="w-16 h-16 object-cover rounded-2xl border">
+            {% else %}
+              <div class="w-16 h-16 rounded-2xl border bg-sandBeige flex items-center justify-center text-dateBrown/60">
+                شعار
+              </div>
+            {% endif %}
+
+            <div>
+              <div class="font-extrabold text-xl">{{ shop.store_name }}</div>
+              <div class="text-sm text-dateBrown/70">{{ shop.city|default:"داخل المنصة" }}</div>
+            </div>
+          </div>
+
+          <p class="text-sm text-dateBrown/80 leading-7 line-clamp-3 mb-4">
+            {{ shop.description|default:"متجر متخصص في عرض المنتجات داخل مزاد القصيم." }}
+          </p>
+
+          <div class="grid grid-cols-2 gap-3 mb-4">
+            <div class="p-3 rounded-2xl bg-sandBeige border">
+              <div class="text-xs text-dateBrown/60">عدد المنتجات</div>
+              <div class="font-extrabold mt-1">{{ shop.products.count }}</div>
+            </div>
+
+            <div class="p-3 rounded-2xl bg-sandBeige border">
+              <div class="text-xs text-dateBrown/60">زوار المتجر</div>
+              <div class="font-extrabold mt-1">{{ shop.visitors_count }}</div>
+            </div>
+          </div>
+
+          <a href="{% url 'public_shop_detail' shop.pk %}"
+             class="block text-center px-5 py-3 rounded-2xl bg-dateBrown text-white font-extrabold hover:opacity-95">
+            دخول المتجر
+          </a>
+        </div>
+      </div>
+    {% empty %}
+      <div class="sm:col-span-2 xl:col-span-3 bg-white rounded-3xl shadow p-8 border text-center">
+        <div class="text-2xl font-extrabold mb-2">لا توجد متاجر حالياً</div>
+        <p class="text-dateBrown/70">عند إضافة المتاجر ستظهر هنا مباشرة.</p>
+      </div>
+    {% endfor %}
+  </section>
+
+</div>
+{% endblock %}

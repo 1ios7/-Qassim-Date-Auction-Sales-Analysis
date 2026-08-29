@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}بيانات المتجر - مزاد القصيم{% endblock %}
+{% block content %}
+
+<div class="max-w-4xl mx-auto grid gap-6">
+
+  <section class="bg-white rounded-3xl shadow p-6 border">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-5">
+      <div>
+        <h1 class="text-3xl font-extrabold">بيانات المتجر</h1>
+        <div class="text-sm text-dateBrown/70 mt-1">عدّل معلومات متجرك الأساسية</div>
+      </div>
+
+      <a href="{% url 'shops_dashboard' %}"
+         class="inline-block px-5 py-3 rounded-2xl bg-dateBrown text-white font-extrabold hover:opacity-95 text-center">
+        العودة للوحة المتجر
+      </a>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" class="space-y-6">
+      {% csrf_token %}
+
+      <div class="grid lg:grid-cols-2 gap-6">
+        <div class="space-y-2">
+          <label class="block text-sm font-bold">اسم المتجر</label>
+          {{ form.store_name }}
+        </div>
+
+        <div class="space-y-2">
+          <label class="block text-sm font-bold">رقم الهاتف</label>
+          {{ form.phone }}
+        </div>
+
+        <div class="lg:col-span-2 space-y-2">
+          <label class="block text-sm font-bold">وصف المتجر</label>
+          {{ form.description }}
+        </div>
+
+        <div class="space-y-2">
+          <label class="block text-sm font-bold">شعار المتجر</label>
+          {{ form.logo }}
+          {% if shop_profile.logo %}
+            <img src="{{ shop_profile.logo.url }}" alt="شعار المتجر" class="w-28 h-28 object-cover rounded-2xl border mt-3">
+          {% endif %}
+        </div>
+
+        <div class="space-y-2">
+          <label class="block text-sm font-bold">بنر المتجر</label>
+          {{ form.banner }}
+          {% if shop_profile.banner %}
+            <img src="{{ shop_profile.banner.url }}" alt="بنر المتجر" class="w-full h-28 object-cover rounded-2xl border mt-3">
+          {% endif %}
+        </div>
+      </div>
+
+      <button type="submit"
+              class="w-full py-3 rounded-2xl bg-palmGold text-dateBrown font-extrabold hover:opacity-95">
+        حفظ التعديلات
+      </button>
+    </form>
+  </section>
+
+</div>
+
+{% endblock %}

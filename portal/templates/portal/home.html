@@ -1,0 +1,303 @@
+{% load static %}
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>منصة المشاريع الرقمية الذكية</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(37, 99, 235, 0.16), transparent 32%),
+        radial-gradient(circle at top left, rgba(16, 185, 129, 0.14), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(245, 158, 11, 0.14), transparent 30%),
+        linear-gradient(135deg, #f8fafc 0%, #eef2ff 48%, #f8fafc 100%);
+      min-height: 100vh;
+    }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.72);
+    }
+
+    .project-card {
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 24px 55px rgba(15, 23, 42, 0.16);
+    }
+
+    .project-card:hover .project-logo {
+      transform: scale(1.07);
+    }
+
+    .project-logo {
+      transition: transform 0.45s ease;
+    }
+
+    .card-glow {
+      position: absolute;
+      inset: -80px auto auto -80px;
+      width: 180px;
+      height: 180px;
+      border-radius: 999px;
+      opacity: 0.18;
+      transition: opacity 0.35s ease;
+    }
+
+    .project-card:hover .card-glow {
+      opacity: 0.35;
+    }
+
+    .float-shape {
+      animation: floatMove 7s ease-in-out infinite;
+    }
+
+    @keyframes floatMove {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-14px); }
+    }
+  </style>
+</head>
+
+<body class="text-slate-900">
+
+  <!-- Header -->
+  <header class="max-w-7xl mx-auto px-5 md:px-8 py-6">
+    <div class="glass rounded-[28px] px-5 md:px-7 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4 shadow-sm">
+
+      <div class="flex items-center gap-4">
+        <div class="h-16 w-16 rounded-2xl bg-white shadow-sm border flex items-center justify-center overflow-hidden">
+          <img src="{% static 'auctions/img/qu_logo.png' %}"
+               alt="شعار جامعة القصيم"
+               class="h-12 w-12 object-contain">
+        </div>
+
+        <div>
+          <div class="text-sm text-slate-500 font-bold">جامعة القصيم</div>
+          <div class="text-xl md:text-2xl font-black">منصة المشاريع الرقمية الذكية</div>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-2 text-xs font-bold">
+        <span class="px-4 py-2 rounded-full bg-blue-50 text-blue-700 border border-blue-100">المزادات</span>
+        <span class="px-4 py-2 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">الذكاء الاصطناعي</span>
+        <span class="px-4 py-2 rounded-full bg-amber-50 text-amber-700 border border-amber-100">لوحات البيانات</span>
+        <span class="px-4 py-2 rounded-full bg-violet-50 text-violet-700 border border-violet-100">تحليل المبيعات</span>
+      </div>
+
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-5 md:px-8 pb-12">
+
+    <!-- Hero -->
+    <section class="relative glass rounded-[36px] p-6 md:p-10 shadow-sm overflow-hidden mb-8">
+      <div class="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-blue-400/20 float-shape"></div>
+      <div class="absolute -bottom-24 -left-20 w-72 h-72 rounded-full bg-emerald-400/20 float-shape"></div>
+
+      <div class="relative z-10 grid lg:grid-cols-[1.2fr_.8fr] gap-8 items-center">
+        <div>
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 border text-sm font-extrabold text-slate-700 mb-5">
+            بوابة موحدة لأربعة مشاريع تخرج
+          </div>
+
+          <h1 class="text-4xl md:text-6xl font-black leading-tight mb-5">
+            منصة واحدة تجمع بين
+            <span class="text-blue-700">الويب</span>،
+            <span class="text-emerald-700">الذكاء الاصطناعي</span>
+            و
+            <span class="text-violet-700">تحليل البيانات</span>
+          </h1>
+
+          <p class="text-slate-600 leading-9 text-lg max-w-4xl">
+            تم تصميم هذه البوابة لتكون نقطة الدخول الرئيسية لجميع أقسام المشروع، بحيث يستطيع المستخدم الانتقال بسهولة بين منصة المزادات، ونظام الكشف الطبي بالذكاء الاصطناعي، ولوحات بيانات المزادات، ونظام تحليل بيانات المبيعات.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div class="rounded-3xl bg-white p-5 border shadow-sm">
+            <div class="text-3xl font-black text-blue-700">01</div>
+            <div class="font-extrabold mt-2">مزاد رقمي</div>
+            <div class="text-sm text-slate-500 mt-1">إدارة مزادات ومزايدات</div>
+          </div>
+
+          <div class="rounded-3xl bg-white p-5 border shadow-sm">
+            <div class="text-3xl font-black text-emerald-700">02</div>
+            <div class="font-extrabold mt-2">ذكاء اصطناعي</div>
+            <div class="text-sm text-slate-500 mt-1">تحليل صور طبية</div>
+          </div>
+
+          <div class="rounded-3xl bg-white p-5 border shadow-sm">
+            <div class="text-3xl font-black text-amber-600">03</div>
+            <div class="font-extrabold mt-2">لوحة مزادات</div>
+            <div class="text-sm text-slate-500 mt-1">مؤشرات ورسوم بيانية</div>
+          </div>
+
+          <div class="rounded-3xl bg-white p-5 border shadow-sm">
+            <div class="text-3xl font-black text-violet-700">04</div>
+            <div class="font-extrabold mt-2">تحليل مبيعات</div>
+            <div class="text-sm text-slate-500 mt-1">بيانات وتقارير</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section>
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-6">
+        <div>
+          <h2 class="text-3xl font-black">أقسام المنصة</h2>
+          <p class="text-slate-600 mt-2">اختر المشروع الذي تريد فتحه من الكروت التالية</p>
+        </div>
+
+        <div class="text-sm text-slate-500 font-bold">
+          جميع الواجهات باللغة العربية ومرتبطة داخل مشروع واحد
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
+
+        <!-- Card 1 -->
+        <a href="{% url 'auction_landing' %}"
+           class="project-card rounded-[30px] bg-white border shadow-sm block">
+          <div class="card-glow bg-blue-500"></div>
+
+          <div class="p-5">
+            <div class="h-40 rounded-[24px] bg-blue-50 border border-blue-100 flex items-center justify-center overflow-hidden mb-5">
+              <img src="{% static 'auctions/img/portal_auction.png' %}"
+                   alt="منصة مزاد القصيم"
+                   class="project-logo h-full w-full object-contain p-5">
+            </div>
+
+            <div class="inline-flex px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-extrabold mb-3">
+              المشروع الرئيسي
+            </div>
+
+            <h3 class="text-xl font-black mb-3">منصة مزاد القصيم</h3>
+
+            <p class="text-sm text-slate-600 leading-7 min-h-[98px]">
+              نظام ويب لإدارة مزادات التمور، يدعم المشترين والبائعين والمتاجر والمشرفين داخل منصة رقمية متكاملة.
+            </p>
+
+            <div class="mt-5 flex items-center justify-between">
+              <span class="font-extrabold text-blue-700">فتح المشروع</span>
+              <span class="h-11 w-11 rounded-full bg-blue-700 text-white flex items-center justify-center font-black">←</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 2 -->
+        <a href="{% url 'malaria_home' %}"
+           class="project-card rounded-[30px] bg-white border shadow-sm block">
+          <div class="card-glow bg-emerald-500"></div>
+
+          <div class="p-5">
+            <div class="h-40 rounded-[24px] bg-emerald-50 border border-emerald-100 flex items-center justify-center overflow-hidden mb-5">
+              <img src="{% static 'auctions/img/portal_malaria.png' %}"
+                   alt="الكشف عن الملاريا"
+                   class="project-logo h-full w-full object-contain p-5">
+            </div>
+
+            <div class="inline-flex px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-extrabold mb-3">
+              ذكاء اصطناعي طبي
+            </div>
+
+            <h3 class="text-xl font-black mb-3">الكشف عن الملاريا</h3>
+
+            <p class="text-sm text-slate-600 leading-7 min-h-[98px]">
+              نظام يعتمد على نموذج تعلم عميق لتحليل صور خلايا الدم والتنبؤ بحالة العينة إذا كانت مصابة أو سليمة.
+            </p>
+
+            <div class="mt-5 flex items-center justify-between">
+              <span class="font-extrabold text-emerald-700">فتح المشروع</span>
+              <span class="h-11 w-11 rounded-full bg-emerald-700 text-white flex items-center justify-center font-black">←</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 3 -->
+        <a href="{% url 'qassim_dashboard_home' %}"
+           class="project-card rounded-[30px] bg-white border shadow-sm block">
+          <div class="card-glow bg-amber-500"></div>
+
+          <div class="p-5">
+            <div class="h-40 rounded-[24px] bg-amber-50 border border-amber-100 flex items-center justify-center overflow-hidden mb-5">
+              <img src="{% static 'auctions/img/portal_dashboard.png' %}"
+                   alt="مزاد القصيم الرقمي"
+                   class="project-logo h-full w-full object-contain p-5">
+            </div>
+
+            <div class="inline-flex px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-extrabold mb-3">
+              لوحة بيانات
+            </div>
+
+            <h3 class="text-xl font-black mb-3">مزاد القصيم الرقمي</h3>
+
+            <p class="text-sm text-slate-600 leading-7 min-h-[98px]">
+              لوحة مؤشرات تفاعلية تعرض الصفقات والمبيعات حسب الفروع، مع رسوم بيانية وتحليل يومي لحركة السوق.
+            </p>
+
+            <div class="mt-5 flex items-center justify-between">
+              <span class="font-extrabold text-amber-700">فتح المشروع</span>
+              <span class="h-11 w-11 rounded-full bg-amber-600 text-white flex items-center justify-center font-black">←</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 4 -->
+        <a href="{% url 'sales_analysis_home' %}"
+           class="project-card rounded-[30px] bg-white border shadow-sm block">
+          <div class="card-glow bg-violet-500"></div>
+
+          <div class="p-5">
+            <div class="h-40 rounded-[24px] bg-violet-50 border border-violet-100 flex items-center justify-center overflow-hidden mb-5">
+              <img src="{% static 'auctions/img/portal_sales.png' %}"
+                   alt="تحليل بيانات المبيعات"
+                   class="project-logo h-full w-full object-contain p-5">
+            </div>
+
+            <div class="inline-flex px-3 py-1 rounded-full bg-violet-50 text-violet-700 text-xs font-extrabold mb-3">
+              هندسة وتحليل بيانات
+            </div>
+
+            <h3 class="text-xl font-black mb-3">تحليل بيانات المبيعات</h3>
+
+            <p class="text-sm text-slate-600 leading-7 min-h-[98px]">
+              نظام يحلل بيانات المبيعات من ملفات CSV، يعرض مؤشرات مهمة، ويقدم رسومات وتقارير تساعد في فهم البيانات.
+            </p>
+
+            <div class="mt-5 flex items-center justify-between">
+              <span class="font-extrabold text-violet-700">فتح المشروع</span>
+              <span class="h-11 w-11 rounded-full bg-violet-700 text-white flex items-center justify-center font-black">←</span>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="max-w-7xl mx-auto px-5 md:px-8 pb-6">
+    <div class="glass rounded-[24px] px-6 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-sm text-slate-600">
+      <div class="font-bold">منصة المشاريع الرقمية الذكية</div>
+      <div>مشروع تخرج موحد يجمع أربع أنظمة تطبيقية</div>
+    </div>
+  </footer>
+
+</body>
+</html>
