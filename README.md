@@ -1,210 +1,257 @@
-Qassim Digital Auction
+ # 🌴 Qassim Date Auction & Sales Analysis
 
-Integrated Digital Platform for Date Auctions, E-Commerce, Sales Analytics, and AI
+## 📌 نبذة عن المشروع
 
-Qassim Digital Auction is a Django-based digital platform designed to support date auctions and related commercial activities. The project combines an online auction system, seller management, digital shops, sales analytics dashboards, and an AI-based image classification component into one integrated platform.
+**مزاد القصيم للتمور وتحليل المبيعات** هو مشروع تخرج يهدف إلى تطوير منصة رقمية متكاملة لإدارة عمليات مزاد التمور، وتوفير خدمات إلكترونية للمستخدمين والبائعين وأصحاب المتاجر والموظفين.
 
-Project Overview
+يجمع المشروع بين **إدارة المزادات، المتاجر والمنتجات، المزايدات، تحليل المبيعات، لوحات المعلومات، والذكاء الاصطناعي** ضمن منصة واحدة.
 
-The platform was developed as a graduation project with the goal of providing a digital environment for managing date auctions and analyzing sales data.
+---
 
-Main Components
+## 🚀 مميزات المشروع
 
-• Digital Auction System — Create, publish, manage, and participate in auctions.
-• Bidding System — Buyers can place bids while the platform tracks auction prices and bid history.
-• Seller Dashboard — Sellers can manage their auctions and related activities.
-• Digital Shops — Shop owners can create stores, manage products, inventory, and customer carts.
-• Sales Analysis — Interactive dashboards for exploring sales data and generating business insights.
-• Qassim Dashboard — Centralized dashboard for presenting project information and analytics.
-• User Accounts — Registration, profiles, roles, and account management.
-• Staff Panel — Management interface for staff-related operations.
-• AI Component — Image-classification functionality using a trained Keras/TensorFlow model.
-• Media Management — Support for auction, shop, product, and platform images.
+### 🏷️ نظام المزادات
+- إنشاء وإدارة المزادات.
+- عرض المزادات المتاحة.
+- المزايدة على المنتجات.
+- إدارة صور المزادات.
+- متابعة عمليات المزايدة.
+- مراجعة وإدارة المزادات.
 
-Key Features
+### 🛒 المتاجر والمنتجات
+- إنشاء ملفات للمتاجر.
+- عرض المتاجر والمنتجات.
+- إدارة المنتجات.
+- إضافة المنتجات إلى سلة المشتريات.
+- إدارة عمليات التسوق.
 
-Auction Management
+### 👤 إدارة المستخدمين
+- تسجيل الدخول والخروج.
+- إدارة حسابات المستخدمين.
+- تحديد أدوار المستخدمين.
+- لوحات تحكم مختلفة حسب نوع المستخدم.
 
-• Create and publish auctions.
-• Set starting prices and minimum bid increments.
-• Configure auction start and end times.
-• Upload multiple auction images.
-• Place and track bids.
-• Suspend auctions when required.
-• Display auction details and bidding activity.
+### 📊 تحليل المبيعات
+- تحليل بيانات المبيعات.
+- عرض البيانات باستخدام الرسوم البيانية.
+- تحليل أداء الفروع.
+- عرض مؤشرات ونتائج المبيعات.
+- إمكانية تحميل التقارير.
 
-Digital Shops
+### 🤖 الذكاء الاصطناعي
+- دمج نموذج ذكاء اصطناعي لتحليل صور الملاريا.
+- رفع صورة للحصول على نتيجة التنبؤ.
+- استخدام TensorFlow وKeras.
+- استخدام OpenCV لمعالجة الصور.
 
-• Create and manage a shop profile.
-• Add and manage products.
-• Manage product prices and stock.
-• Upload product images.
-• Enable or disable products.
-• Customer shopping cart functionality.
-• Shop profile, logo, and banner management.
+### 👨‍💼 لوحة تحكم الموظفين
+- متابعة النظام.
+- إدارة المزادات.
+- مراجعة العمليات.
+- إدارة العمليات المختلفة داخل المنصة.
 
-Sales Analytics
+---
 
-The sales_analysis module provides a dashboard for exploring sales data and presenting business metrics.
+## 🛠️ التقنيات المستخدمة
 
-The project includes sample sales data and a project database that can be used for analysis and visualization.
+| التقنية | الاستخدام |
+|---|---|
+| Python | لغة البرمجة الأساسية |
+| Django | تطوير تطبيق الويب |
+| SQLite | قاعدة البيانات |
+| HTML | بناء صفحات الويب |
+| CSS | تصميم الواجهات |
+| JavaScript | التفاعل داخل الواجهات |
+| Pandas | تحليل البيانات |
+| NumPy | معالجة البيانات والعمليات الحسابية |
+| Matplotlib | إنشاء الرسوم البيانية |
+| Plotly | الرسوم البيانية التفاعلية |
+| OpenCV | معالجة الصور |
+| TensorFlow | الذكاء الاصطناعي |
+| Keras | نموذج التعلم الآلي |
+| Git | إدارة الإصدارات |
+| GitHub | استضافة وإدارة المشروع |
 
-The analytics component can be extended to support:
+---
 
-• Total sales
-• Sales volume
-• Product performance
-• Geographic analysis
-• Monthly sales trends
-• Order/status analysis
-• Transaction-size analysis
-• Business performance indicators
-
-AI Component
-
-The malaria module contains an AI image-classification component using a trained .h5 model.
-
-It includes preprocessing and model-related scripts for working with image data.
-
-> **Note:** This component is included as part of the integrated project and is intended for software/AI demonstration purposes, not medical diagnosis.
-
-Technology Stack
-
-|Technology        |Purpose                           |
-|------------------|----------------------------------|
-|Python            |Main programming language         |
-|Django            |Web application framework         |
-|SQLite            |Local database                    |
-|HTML / CSS        |User interface                    |
-|JavaScript        |Client-side interactions          |
-|Pandas            |Data analysis                     |
-|NumPy             |Numerical processing              |
-|Plotly            |Interactive data visualization    |
-|Matplotlib        |Data visualization                |
-|OpenCV            |Image processing                  |
-|TensorFlow / Keras|AI model development and inference|
-|Pillow            |Image handling                    |
-
-Project Structure
+## 📂 هيكل المشروع
 
 ```text
 QassimDigitalAuction/
 │
-├── accounts/                 # User accounts and profiles
-├── auctions/                 # Auctions, bids, and auction images
-├── seller/                   # Seller functionality
-├── shops/                    # Digital shops, products, and carts
-├── sales_analysis/           # Sales analysis and dashboard
-├── qassim_dashboard/         # Main analytics dashboard
-├── staffpanel/               # Staff management
-├── portal/                   # Main portal
-├── malaria/                  # AI image-classification component
-├── media/                    # Uploaded media
-├── config/                   # Django project configuration
-├── manage.py                 # Django management script
-├── requirements.txt          # Python dependencies
-└── cmds.md                   # Development commands
+├── accounts/
+├── auctions/
+├── config/
+├── malaria/
+├── portal/
+├── qassim_dashboard/
+├── sales_analysis/
+├── seller/
+├── shops/
+├── staffpanel/
+├── media/
+├── Screenshots/
+│
+├── db.sqlite3
+├── manage.py
+├── requirements.txt
+└── README.md
 ```
 
-Installation
+---
 
-1. Clone the repository
+# 🖼️ صور المشروع
+
+## 🏠 واجهات النظام
+
+### الصورة 01
+![Project Screenshot 01](Screenshots/image1.png)
+
+### الصورة 02
+![Project Screenshot 02](Screenshots/image2.png)
+
+### الصورة 03
+![Project Screenshot 03](Screenshots/image3.png)
+
+### الصورة 04
+![Project Screenshot 04](Screenshots/image4.png)
+
+### الصورة 05
+![Project Screenshot 05](Screenshots/image5.png)
+
+### الصورة 06
+![Project Screenshot 06](Screenshots/image6.png)
+
+### الصورة 07
+![Project Screenshot 07](Screenshots/image7.png)
+
+### الصورة 08
+![Project Screenshot 08](Screenshots/image8.png)
+
+### الصورة 09
+![Project Screenshot 09](Screenshots/image9.png)
+
+### الصورة 10
+![Project Screenshot 10](Screenshots/image10.png)
+
+### الصورة 11
+![Project Screenshot 11](Screenshots/image11.png)
+
+### الصورة 12
+![Project Screenshot 12](Screenshots/image12.png)
+
+### الصورة 13
+![Project Screenshot 13](Screenshots/image13.png)
+
+### الصورة 14
+![Project Screenshot 14](Screenshots/image14.png)
+
+### الصورة 15
+![Project Screenshot 15](Screenshots/image15.png)
+
+### الصورة 16
+![Project Screenshot 16](Screenshots/image16.png)
+
+### الصورة 17
+![Project Screenshot 17](Screenshots/image17.png)
+
+### الصورة 18
+![Project Screenshot 18](Screenshots/image18.png)
+
+---
+
+# ⚙️ طريقة تشغيل المشروع
+
+## 1. تحميل المشروع
 
 ```bash
 git clone https://github.com/1ios7/-Qassim-Date-Auction-Sales-Analysis.git
+```
+
+## 2. الدخول إلى مجلد المشروع
+
+```bash
 cd -Qassim-Date-Auction-Sales-Analysis
 ```
 
-2. Create a virtual environment
-
-Windows:
+## 3. إنشاء البيئة الافتراضية
 
 ```bash
-python -m venv .venv
-.venv\Scripts\activate
+python -m venv venv
 ```
 
-3. Install dependencies
+## 4. تفعيل البيئة الافتراضية في Windows
 
 ```bash
-python -m pip install --upgrade pip
+venv\Scripts\activate
+```
+
+## 5. تثبيت المتطلبات
+
+```bash
 pip install -r requirements.txt
 ```
 
-4. Apply migrations
-
-```bash
-python manage.py migrate
-```
-
-5. Create an administrator account
-
-```bash
-python manage.py createsuperuser
-```
-
-6. Run the development server
+## 6. تشغيل المشروع
 
 ```bash
 python manage.py runserver
 ```
 
-Then open:
+ثم افتح:
 
 ```text
 http://127.0.0.1:8000/
 ```
 
-Configuration
+---
 
-For local development, Django settings are located in:
+# 📊 مكونات النظام
 
-```text
-config/settings.py
-```
+| التطبيق | الوظيفة |
+|---|---|
+| `accounts` | إدارة الحسابات والمستخدمين |
+| `auctions` | إدارة المزادات والمزايدات |
+| `shops` | المتاجر والمنتجات والسلة |
+| `seller` | وظائف البائع |
+| `staffpanel` | لوحة الموظفين والإدارة |
+| `portal` | بوابة النظام |
+| `sales_analysis` | تحليل بيانات المبيعات |
+| `qassim_dashboard` | لوحات المعلومات والتحليلات |
+| `malaria` | تحليل الصور باستخدام الذكاء الاصطناعي |
 
-Before deploying the application to a production environment, configure environment variables for sensitive settings such as the Django SECRET_KEY, disable debug mode, and configure allowed hosts and a production database.
+---
 
-Data
+# 🎓 مشروع التخرج
 
-The project contains sample/project data used by the sales-analysis component.
+### اسم المشروع
 
-The repository may also contain local SQLite and media files for demonstration purposes. In a production deployment, databases and user-uploaded media should normally be handled separately from source code.
+**مزاد القصيم للتمور وتحليل المبيعات**
 
-Development Notes
+### فكرة المشروع
 
-The project is organized as a modular Django application, with separate apps for the major platform features. This structure makes it easier to maintain, extend, and develop each component independently.
+تطوير منصة رقمية متكاملة تجمع بين:
 
-Future Improvements
+- إدارة المزادات.
+- المزايدة الإلكترونية.
+- إدارة المتاجر والمنتجات.
+- سلة المشتريات.
+- إدارة المستخدمين.
+- لوحات التحكم.
+- تحليل بيانات المبيعات.
+- تحليل أداء الفروع.
+- الذكاء الاصطناعي.
 
-Potential improvements include:
+---
 
-• Deployment to a production cloud environment.
-• PostgreSQL or another production-grade database.
-• Secure environment-variable configuration.
-• Real-time bidding using WebSockets.
-• Payment gateway integration.
-• Advanced sales forecasting.
-• More comprehensive automated testing.
-• Role-based permissions and access control.
-• CI/CD automation.
-• Improved AI model evaluation and monitoring.
+# 👨‍💻 المطور
 
-Academic Project
+**Zaidan Al-Mutairi**
 
-Project: Qassim Digital Auction and Sales Analysis
+**Diploma — Information Technology / Systems Design & Analysis**
 
-The project demonstrates practical skills in:
+---
 
-• Web application development
-• Database design
-• Django development
-• Data analysis
-• Data visualization
-• Image processing
-• AI integration
-• Modular software design
+## 📄 License
 
-License
-
-This project is provided for educational and portfolio purposes.
+This project was developed as an academic graduation project.
